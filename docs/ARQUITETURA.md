@@ -9,7 +9,11 @@ JAVA CRAFT X (APK com.javacraftx.launcher)
 │   └── net.kdt.pojavlaunch.jcx.*  ← módulos próprios do JAVA CRAFT X
 │       ├── XPerformance / XPerformanceFragment   (X-PERFORMANCE)
 │       ├── XTouchFragment + assets/xtouch/*.json  (X-TOUCH)
-│       ├── XMonitor                               (menu rápido in-game)
+│       ├── XMonitor / XHud                        (Game HUD: menu rápido in-game)
+│       ├── VersionCatalog / VersionHubFragment    (Universal Version Hub + matriz de compatibilidade)
+│       ├── EngineFragment                         (X-Engine: aparelho, Renderer Manager, Runtime Manager)
+│       ├── ServerPing / ServersFragment           (Multiplayer)
+│       ├── JcxMotion                              (animações curtas, sem loops)
 │       ├── Modrinth / ContentIndex / ContentLabFragment (Mod Center, Shader Lab, Resource Packs)
 │       ├── JcxDownloader                          (Download Engine)
 │       ├── Nbt / WorldManagerFragment             (World Manager)
@@ -22,6 +26,18 @@ JAVA CRAFT X (APK com.javacraftx.launcher)
 │   └── Instaladores: versões Mojang, Fabric, Quilt, Forge, NeoForge, OptiFine, modpacks
 └── Dados por perfil: <armazenamento do app>/.minecraft/<pasta do perfil>/{mods, shaderpacks, resourcepacks, saves, options.txt}
 ```
+
+### Processos
+
+O launcher roda no processo interno `:launcher` e o jogo (`MainActivity`, `GameService`) no processo
+interno `:game`, ambos dentro do mesmo APK. Assim o jogo pode ser encerrado sem derrubar o launcher
+("Voltar ao launcher" no menu rápido). Nenhum outro aplicativo é usado.
+
+### Instalação real
+
+O botão "Instalar agora" do Version Hub chama o instalador do motor (`MinecraftDownloader`), que baixa
+dos servidores da Mojang o JSON da versão, client JAR, bibliotecas, natives e assets, conferindo SHA-1.
+A versão só aparece como "Instalada" quando o JSON e o JAR existem de fato.
 
 Os módulos JCX conversam com o motor apenas por pontos públicos: preferências
 (`LauncherPreferences`), perfis (`LauncherProfiles`/`MinecraftProfile`), a pasta do jogo e os

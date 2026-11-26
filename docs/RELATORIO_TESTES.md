@@ -15,11 +15,19 @@ build no CI, testes unitários (JVM) e testes em aparelho (**não executados**).
 | 1 | `805a82e` | v1.0.0 — identidade JCX | ✅ release + debug |
 | 2 | `031327d` | documentação | ✅ |
 | 3 | `99b1030` | v1.1.0 Ultimate — módulos JCX | ✅ release (156.844.937 bytes) + debug (168.750.390 bytes) + testes |
+| 4 | `e5e02ea` | v1.1.0 docs + notas de release | ✅ 12/12 testes |
+| 5 | `9ad22bd` | v1.2.0 Next Generation | ✅ release (156.881.731 bytes) + debug (168.797.600 bytes) + 18/18 testes |
 
 Todas as etapas passaram: checkout com submódulos, JRE 8, assembleRelease, assembleDebug,
 testDebugUnitTest, checksums, release.
 
 ## 2. Testes unitários (JUnit, `app_pojavlauncher/src/test`)
+
+Build 5: **18 testes, 0 falhas, 0 erros** (`JcxCoreTest` 12 + `JcxEngineTest` 6).
+
+`JcxEngineTest`: separação host:porta (incl. IPv6), VarInt do protocolo, leitura do status de servidor
+(versão, jogadores, MOTD sem códigos de cor), servers.dat sem compressão (ida e volta), parse do
+manifesto oficial e categorias (release, snapshot, pre-release, RC, beta, alpha), comparação de versões.
 
 12 testes em `JcxCoreTest`, executados no CI a cada build (resultado publicado nas notas de cada release).
 9 deles (os que não dependem de classes Android) também foram executados localmente: **OK (9 tests)**.
@@ -47,7 +55,10 @@ testDebugUnitTest, checksums, release.
 
 ## 4. Testes em aparelho — NÃO EXECUTADOS
 
-Instalação do APK, abertura, autenticação, modo convidado, runtime, instalação de versões,
+Critérios de aceitação da especificação (instalar versão legítima, runtime correto, jogo iniciar,
+renderização, áudio, controles, criar mundo, mover, inventário, construir, salvar, voltar ao launcher,
+registrar erros) e os testes de Version Hub, multiplayer e controles externos:
+instalação do APK, abertura, autenticação, modo convidado, runtime, instalação de versões,
 inicialização e renderização do Minecraft, controles X-TOUCH, menu rápido, mods, shaders,
 multiplayer autenticado, desempenho (FPS, tempo de inicialização, memória), encerramento,
 reabertura e recuperação de falhas **não foram testados** — exigem um aparelho Android físico e
@@ -64,3 +75,8 @@ uma conta Microsoft com o Minecraft. Nenhum número de FPS ou tempo foi inventad
 7. Shader Lab com Iris instalado e renderizador MobileGlues → instalar um shader "potato/low".
 8. World Manager → Backup → Restaurar → Renomear.
 9. Forçar heap alto (CUSTOM) até falhar e abrir o **Crash Analyzer**.
+10. Version Hub → filtro Releases → 1.20.1 → **Instalar agora** (ver barra inferior) → **Criar perfil**.
+11. Multiplayer → adicionar um servidor → **Verificar** → **Jogar**.
+12. Conectar controle Bluetooth → X-TOUCH → conferir se aparece em "Dispositivos detectados".
+13. No jogo: X MENU → tamanho dos botões, ocultar controles, captura de tela, voltar ao launcher.
+14. Depois de cada versão testada: Version Hub → **Registrar resultado de teste** (preenche a matriz).

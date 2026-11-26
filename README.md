@@ -1,5 +1,5 @@
 <p align="center"><img src="app_pojavlauncher/src/main/res/drawable-nodpi/jcx_logo.png" height="72" alt="JAVA CRAFT X"></p>
-<p align="center"><b>Advanced Java Gaming Environment</b><br>Launcher Android que roda <b>Minecraft: Java Edition dentro do próprio app</b>.</p>
+<p align="center"><b>Advanced Java Gaming Environment</b> • by KAIKODEV<br>Launcher Android que roda <b>Minecraft: Java Edition dentro do próprio app</b>.</p>
 
 ---
 
@@ -31,9 +31,13 @@ Legenda: ✅ implementado no código • ⚠️ parcial/limitado • ⚙️ prec
 | Perfil local | ✅ | Liberado só depois de existir uma conta Microsoft; não entra em servidores online |
 | Versões (releases, snapshots, antigas) | ✅ | Manifesto oficial, SHA-1, downloads paralelos, perfis/pastas independentes, Java 8 embutido e 17/21/25 baixados automaticamente |
 | Loaders | ✅ | Fabric, Quilt, Forge, NeoForge, OptiFine |
+| **Version Hub** | ✅ | Catálogo dinâmico do manifesto oficial `version_manifest_v2` (sem lista fixa): latest release/snapshot, releases, snapshots, pre-releases, RCs, alpha/beta históricas e versões com loader instaladas. Filtros (todas, instaladas, não instaladas, releases, snapshots, históricas, favoritas, compatíveis, incompatíveis), busca, aviso de versões novas, detalhes conferidos por SHA-1 (Java, client JAR, assets, bibliotecas), instalar/verificar/reparar pelo motor, criar perfil com instância isolada, remover com aviso de perfis afetados |
+| **Matriz de compatibilidade** | ✅ | COMPATIBLE / LIMITED / UNSUPPORTED só por teste registrado ou impossibilidade técnica (ex.: Java > 25); o resto é UNKNOWN com observações |
+| **X-Engine** | ✅ | Capacidades do aparelho (arquitetura, Android, RAM, armazenamento, OpenGL ES, Vulkan) e recomendações; Renderer Manager por perfil com escolha automática, requisitos, indisponíveis marcados e diagnóstico da última falha gráfica; Runtime Manager (Java instalados, remover) |
+| **Multiplayer** | ✅ | Lista de servidores do próprio jogo (`servers.dat`): adicionar, editar, remover, favorito no topo, copiar IP, status real (online, jogadores, versão, ping, MOTD) e atalho para jogar. Entrada no servidor com a autenticação normal do jogo |
 | **X-PERFORMANCE** | ✅ | Monitor (RAM, pressão de memória, temperatura, armazenamento) + modos ECO / BALANCED / HIGH PERFORMANCE / CUSTOM que ajustam heap (até o máximo seguro), resolução e `options.txt` (distância, simulação, FPS, VSync, partículas, gráficos, sombras, mipmap). Botão para restaurar o original |
-| **X-TOUCH** | ✅ | 5 layouts próprios (Survival, PVP, Creative, Parkour com trava de avanço, Custom); usar, duplicar, restaurar; sensibilidade, escala dos botões, tempo do toque longo, gestos; editor completo (mover, redimensionar, opacidade, ação, toggle) |
-| **Menu rápido in-game** | ✅ | Botão X MENU: X-MONITOR (memória do jogo, RAM, temperatura), trocar layout durante a partida, configurações rápidas (resolução, sensibilidade), editor, logs, encerrar |
+| **X-TOUCH Studio** | ✅ | 7 layouts próprios (Survival, PVP, Creative, Parkour, Builder, Minimal, Custom); usar, duplicar, restaurar, importar, exportar, usar só num perfil; sensibilidade, escala, toque longo, gestos; editor visual (arrastar, redimensionar, opacidade, ação); detecção de controle Bluetooth/USB, teclado e mouse; mapeamento de gamepad |
+| **Game HUD / menu rápido** | ✅ | Botão X MENU sem pausar o jogo: X-MONITOR, trocar layout, tamanho dos botões ao vivo, ocultar controles, captura de tela (F2), configurações rápidas (resolução, sensibilidade), editor, logs, voltar ao launcher (o jogo roda num processo interno separado) |
 | **Mod Center** (Modrinth) | ✅ | Busca, categorias, ordenação, filtro por versão e loader, dependências obrigatórias instaladas junto, aviso de conflito, ativar/desativar, atualizar, remover |
 | **Shader Lab** (Modrinth) | ⚠️ | Busca/instala/remove shaderpacks com avisos de requisito (Iris/OptiFine, renderizador). Funcionar depende da GPU — nunca é marcado como compatível |
 | Resource Packs (Modrinth) | ✅ | Mesmo fluxo, com verificação de versão pelos metadados |
@@ -85,6 +89,7 @@ Sem segredos, o release é assinado com a chave de debug (instala normalmente, m
 - [Compatibilidade](docs/COMPATIBILIDADE.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Arquitetura e licenças](docs/ARQUITETURA.md)
+- [Auditoria de código aberto](OPEN_SOURCE_NOTICES.md)
 - [README original do Amethyst](docs/UPSTREAM_README.md) (créditos completos)
 
 ## Licença

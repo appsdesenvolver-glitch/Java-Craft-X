@@ -13,8 +13,17 @@
 - Crash Analyzer (16 regras com evidência, etapa estimada, relatório exportável).
 - Modo convidado honesto; testes unitários no CI.
 
+## v1.2.0 — Next Generation
+- Version Hub com manifesto oficial v2, filtros, favoritos, instalação/reparo e matriz de compatibilidade.
+- X-Engine (aparelho, Renderer Manager com recomendação, Runtime Manager).
+- Multiplayer (servers.dat + status real).
+- X-TOUCH Studio (Builder, Minimal, importar/exportar, layout por perfil, controles externos).
+- Game HUD (tamanho ao vivo, ocultar, captura, voltar ao launcher).
+- Dashboard novo com animações leves e transições; crédito KAIKODEV.
+
 ## Ainda não implementado (próximos passos)
-1. Medição de FPS fora do jogo (hoje: F3 dentro do jogo).
+1. Indicador de FPS sobreposto (hoje: F3 dentro do jogo).
+2. Consulta de registros SRV no status de servidor.
 2. Pausar/retomar manual na fila de downloads (hoje: cancelar + retomada automática na próxima tentativa).
 3. Exportar perfil de mods como `.mrpack` e backup/restauração de instalações inteiras.
 4. Avatar personalizado para perfis locais.

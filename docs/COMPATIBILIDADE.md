@@ -1,5 +1,10 @@
 # Matriz de compatibilidade
 
+> A matriz viva fica no app: **Version Hub → versão → Registrar resultado de teste**. Cada registro guarda
+> resultado (COMPATIBLE / LIMITED / UNSUPPORTED), aparelho, renderizador e data. Sem registro, a versão
+> aparece como **UNKNOWN** — nenhuma versão é marcada compatível só por estar no manifesto.
+
+
 Valores **esperados** a partir do motor Amethyst/PojavLauncher — não são resultados de testes do JAVA CRAFT X
 (ver [RELATORIO_TESTES.md](RELATORIO_TESTES.md)). Compatibilidade universal não é garantida.
 
