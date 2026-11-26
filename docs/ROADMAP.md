@@ -1,23 +1,22 @@
 # Roadmap e registro de implementação
 
-## Feito (v1.0.0)
-
+## v1.0.0
 - Motor de execução integrado (Amethyst, LGPL-3.0) com Minecraft rodando dentro do app.
-- Identidade JAVA CRAFT X: paleta, logo, ícone adaptativo, botão JOGAR, cabeçalho do dashboard, nome em todas as traduções.
-- Pacote próprio `com.javacraftx.launcher`; assinatura de release configurável por segredos.
-- CI que gera APK release + debug e publica em Releases.
-- Documentação PT-BR (README, autenticação, compatibilidade, testes, NOTICE).
+- Identidade JAVA CRAFT X, pacote próprio, CI que publica APKs, documentação PT-BR.
 
-## Próximos módulos (não implementados ainda)
+## v1.1.0 — Ultimate Edition
+- X-PERFORMANCE (monitor + ECO / BALANCED / HIGH PERFORMANCE / CUSTOM, reversível).
+- X-TOUCH (5 layouts próprios, sensibilidade, escala, toque longo, gestos) e menu rápido in-game (X-MONITOR, troca de layout).
+- Mod Center, Shader Lab e Resource Packs integrados ao Modrinth, com dependências, conflitos, ativar/desativar e atualização.
+- Download Engine (HTTPS, retomada, repetição, cancelamento, hash, espaço).
+- World Manager (NBT, backup, restauração/importação segura, duplicar, renomear, reparar, excluir).
+- Crash Analyzer (16 regras com evidência, etapa estimada, relatório exportável).
+- Modo convidado honesto; testes unitários no CI.
 
-Cada item abaixo precisa ser desenvolvido em Java dentro de `app_pojavlauncher` e testado num aparelho:
-
-1. **X-Boost** — perfis ECO / BALANCED / VISUAL / CUSTOM que ajustam heap (por RAM detectada via
-   `ActivityManager.MemoryInfo`), escala de resolução e `options.txt` (render/simulation distance, partículas).
-2. **World Manager** — listar `saves/` por perfil, ler `level.dat` (NBT) para versão, backup/restore em ZIP
-   com proteção contra path traversal, duplicar, renomear, excluir com confirmação.
-3. **Crash Analyzer** — ler `latestlog.txt`/crash-reports, regras para OutOfMemoryError, mod ausente,
-   GL errors, mixin conflicts; mostrar "possível causa" (nunca diagnóstico definitivo) e exportar relatório.
-4. **Shader Lab** — aba própria com busca Modrinth (`project_type=shader`), avisos por renderizador.
-5. **Device Monitor** — RAM, armazenamento, temperatura (`BatteryManager`) e tempo de inicialização.
-6. Dashboard estendido — cartões de conta, última versão, estado do Java/renderizador, armazenamento.
+## Ainda não implementado (próximos passos)
+1. Medição de FPS fora do jogo (hoje: F3 dentro do jogo).
+2. Pausar/retomar manual na fila de downloads (hoje: cancelar + retomada automática na próxima tentativa).
+3. Exportar perfil de mods como `.mrpack` e backup/restauração de instalações inteiras.
+4. Avatar personalizado para perfis locais.
+5. Testes em aparelhos reais e preenchimento da matriz de compatibilidade com resultados medidos.
+6. Telas do motor herdadas (editor de perfil, configurações) ainda com o visual do Amethyst recolorido; migrar para os componentes JCX.

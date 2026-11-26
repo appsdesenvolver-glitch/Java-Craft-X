@@ -83,9 +83,29 @@ jobs:
           mkdir -p out/test-report
           cp -r app_pojavlauncher/build/test-results/testDebugUnitTest/*.xml out/test-report/ || true
 
-      - name: Checksums
+      - name: Checksums e notas da release
         run: |
           cd out && sha256sum *.apk > SHA256SUMS.txt && cat SHA256SUMS.txt && ls -la
+          {
+            echo "APKs gerados automaticamente pelo GitHub Actions (commit ${{ github.sha }})."
+            echo "- **JavaCraftX-release.apk** — instale este."
+            echo "- **JavaCraftX-debug.apk** — versão de depuração (instala ao lado, pacote .debug)."
+            echo
+            echo "### Testes unitários"
+            if ls test-report/*.xml >/dev/null 2>&1; then
+              grep -ho '<testsuite [^>]*' test-report/*.xml | grep -o 'name="[^"]*"\|tests="[0-9]*"\|failures="[0-9]*"\|errors="[0-9]*"\|skipped="[0-9]*"' | tr '\n' ' '
+              echo
+              grep -h -A2 '<failure' test-report/*.xml | head -40 || true
+            else
+              echo "Relatório de testes não gerado (ver log do Actions)."
+            fi
+            echo
+            echo '### SHA-256'
+            echo '```'
+            cat SHA256SUMS.txt
+            echo '```'
+          } > ../release.md
+          cat ../release.md
 
       - name: Upload APKs (artifact)
         uses: actions/upload-artifact@v4
@@ -99,10 +119,7 @@ jobs:
         with:
           tag_name: build-${{ github.run_number }}
           name: JAVA CRAFT X — build ${{ github.run_number }}
-          body: |
-            APKs gerados automaticamente pelo GitHub Actions (commit ${{ github.sha }}).
-            - **JavaCraftX-release.apk** — instale este.
-            - **JavaCraftX-debug.apk** — versão de depuração (instala ao lado, pacote .debug).
+          body_path: release.md
           files: |
             out/JavaCraftX-release.apk
             out/JavaCraftX-debug.apk

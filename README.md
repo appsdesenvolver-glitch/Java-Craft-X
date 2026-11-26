@@ -20,26 +20,29 @@ Pacote: `com.javacraftx.launcher` (o debug é `com.javacraftx.launcher.debug` e 
 
 ## Funcionalidades (estado real)
 
-| Área | Status | Observação |
+Legenda: ✅ implementado no código • ⚠️ parcial/limitado • ⚙️ precisa de configuração externa.
+"Implementado" não quer dizer "testado num aparelho" — ver [relatório de testes](docs/RELATORIO_TESTES.md).
+
+| Módulo | Status | O que faz de verdade |
 |---|---|---|
-| Executar Minecraft Java dentro do app | ✅ motor Amethyst | JVM ARM + LWJGL3 + renderizadores Krypton (NG-GL4ES), MobileGlues, Zink (Vulkan) e LTW, conforme a GPU |
-| Login Microsoft oficial | ✅ | OAuth no site oficial `login.live.com` (WebView do sistema), tokens Xbox/Minecraft, renovação automática. Senha nunca passa pelo launcher |
-| Conta offline/local | ✅ | Só para servidores/mundos que permitam |
-| Versões (releases, snapshots, antigas) | ✅ | Manifesto oficial da Mojang, verificação SHA-1, download paralelo, reparo |
-| Java 8 / 17 / 21 / 25 | ✅ | Java 8 embutido no APK; 17/21/25 baixados automaticamente na 1ª vez que uma versão nova é iniciada |
-| Fabric / Quilt / Forge / NeoForge / OptiFine | ✅ | Instaladores integrados |
-| Central de mods e modpacks (Modrinth) | ✅ | Busca, versões, instalação, modpacks `.mrpack` |
-| CurseForge | ⚙️ | Precisa da chave da API no segredo `CURSEFORGE_API_KEY`; sem ela fica desativado |
-| Shaders | ⚠️ parcial | Instalados como mods (Iris/OptiFine). Funcionam só com renderizadores/GPUs que suportem; não há suporte universal |
-| Editor de controles touch | ✅ | Botões, analógico, opacidade, tamanho, perfis, import/export |
-| Teclado, mouse e gamepad | ✅ | Inclui remapeamento de controle |
-| Memória (heap Java) | ✅ | Slider limitado à RAM do aparelho |
-| Renderizador, resolução, argumentos JVM | ✅ | Por perfil ou global |
-| Perfis isolados (pasta por instalação) | ✅ | |
-| Logs e compartilhamento de log | ✅ | Tela de erro com log após falha |
-| Gerenciador de arquivos/mundos | ✅ básico | Via provedor de documentos do Android (botão "Abrir pasta do jogo") |
-| Dashboard com identidade JAVA CRAFT X | ✅ | Paleta preto/roxo/azul neon/ciano, logo, ícone e botão JOGAR novos |
-| X-Boost (perfis ECO/BALANCED/VISUAL), Shader Lab dedicado, World Manager com backup, Crash Analyzer com diagnóstico, monitor de temperatura | ❌ ainda não | Planejados — ver [docs/ROADMAP.md](docs/ROADMAP.md) |
+| Motor Java integrado | ✅ (Amethyst) | JVM ARM + LWJGL3 + renderizadores Krypton (NG-GL4ES), MobileGlues, Zink (Vulkan) e LTW; o jogo roda numa superfície do próprio app |
+| Conta Microsoft | ✅ | OAuth oficial em `login.live.com`, Xbox/XSTS, verificação de posse do jogo, renovação de token, logout |
+| **Modo convidado** | ✅ | Usa todo o launcher sem conta. Para jogar exige conta com licença; sem licença só a Demo oficial. Nada é desbloqueado sem licença |
+| Perfil local | ✅ | Liberado só depois de existir uma conta Microsoft; não entra em servidores online |
+| Versões (releases, snapshots, antigas) | ✅ | Manifesto oficial, SHA-1, downloads paralelos, perfis/pastas independentes, Java 8 embutido e 17/21/25 baixados automaticamente |
+| Loaders | ✅ | Fabric, Quilt, Forge, NeoForge, OptiFine |
+| **X-PERFORMANCE** | ✅ | Monitor (RAM, pressão de memória, temperatura, armazenamento) + modos ECO / BALANCED / HIGH PERFORMANCE / CUSTOM que ajustam heap (até o máximo seguro), resolução e `options.txt` (distância, simulação, FPS, VSync, partículas, gráficos, sombras, mipmap). Botão para restaurar o original |
+| **X-TOUCH** | ✅ | 5 layouts próprios (Survival, PVP, Creative, Parkour com trava de avanço, Custom); usar, duplicar, restaurar; sensibilidade, escala dos botões, tempo do toque longo, gestos; editor completo (mover, redimensionar, opacidade, ação, toggle) |
+| **Menu rápido in-game** | ✅ | Botão X MENU: X-MONITOR (memória do jogo, RAM, temperatura), trocar layout durante a partida, configurações rápidas (resolução, sensibilidade), editor, logs, encerrar |
+| **Mod Center** (Modrinth) | ✅ | Busca, categorias, ordenação, filtro por versão e loader, dependências obrigatórias instaladas junto, aviso de conflito, ativar/desativar, atualizar, remover |
+| **Shader Lab** (Modrinth) | ⚠️ | Busca/instala/remove shaderpacks com avisos de requisito (Iris/OptiFine, renderizador). Funcionar depende da GPU — nunca é marcado como compatível |
+| Resource Packs (Modrinth) | ✅ | Mesmo fluxo, com verificação de versão pelos metadados |
+| Modpacks | ✅ (Amethyst) | Instalação de `.mrpack` do Modrinth em perfil isolado |
+| **Download Engine** | ✅ | HTTPS obrigatório, retomada (Range), 4 tentativas, cancelar, progresso e velocidade reais, espaço livre, SHA-512/SHA-1 |
+| **World Manager** | ✅ | Lista com ícone, nome real e versão (NBT), tamanho, data; backup ZIP; restaurar/importar (.zip) sempre em pasta nova com proteção ZIP Slip; duplicar; renomear (nome no jogo + pasta); reparar via `level.dat_old`; excluir com dupla confirmação |
+| **Crash Analyzer** | ✅ | Lê `latestlog.txt`, `logs/latest.log` e o crash-report mais recente; 16 regras (memória, heap, Java, dependências, duplicados, Mixin, gráficos, shader, nativo, rede, armazenamento, arquivo corrompido, sessão…), sempre com a linha de evidência e marcadas como "possível causa"; relatório exportável |
+| CurseForge | ⚙️ | Precisa do segredo `CURSEFORGE_API_KEY` |
+| Interface | ✅ | Paleta preto/roxo/azul neon/ciano, logo, ícone, componentes próprios nas telas JCX |
 
 Nada nesta tabela foi marcado como pronto sem existir no código.
 
@@ -81,6 +84,7 @@ Sem segredos, o release é assinado com a chave de debug (instala normalmente, m
 - [Relatório de testes](docs/RELATORIO_TESTES.md)
 - [Compatibilidade](docs/COMPATIBILIDADE.md)
 - [Roadmap](docs/ROADMAP.md)
+- [Arquitetura e licenças](docs/ARQUITETURA.md)
 - [README original do Amethyst](docs/UPSTREAM_README.md) (créditos completos)
 
 ## Licença
