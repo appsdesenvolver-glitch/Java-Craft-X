@@ -265,5 +265,8 @@ dependencies {
 
     implementation project(":androidnsbypass")
 
+    // JAVA CRAFT X — testes unitários (JVM) dos módulos jcx
+    testImplementation 'junit:junit:4.13.2'
+
 }
 apply from: rootProject.file('gradle/prefab_bypass.gradle')

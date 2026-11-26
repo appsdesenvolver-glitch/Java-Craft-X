@@ -520,4 +520,18 @@
     <!-- JAVA CRAFT X -->
     <string name="jcx_subtitle" translatable="false">Advanced Java Gaming Environment</string>
     <string name="jcx_project_button">Project</string>
+    <string name="jcx_btn_performance" translatable="false">X-PERFORMANCE</string>
+    <string name="jcx_btn_xtouch" translatable="false">X-TOUCH</string>
+    <string name="jcx_btn_mods" translatable="false">Mod Center</string>
+    <string name="jcx_btn_shaders" translatable="false">Shader Lab</string>
+    <string name="jcx_btn_worlds" translatable="false">World Manager</string>
+    <string name="jcx_btn_packs" translatable="false">Resource Packs</string>
+    <string name="jcx_btn_crash" translatable="false">Crash Analyzer</string>
+    <string name="jcx_ingame_monitor" translatable="false">X-MONITOR</string>
+    <string name="jcx_ingame_layout" translatable="false">X-TOUCH: layout</string>
+    <string name="jcx_auth_microsoft">Microsoft Account</string>
+    <string name="jcx_auth_local">Local profile</string>
+    <string name="jcx_auth_guest">Guest mode</string>
+    <string name="jcx_guest_title">Guest mode</string>
+    <string name="jcx_guest_message">You can browse every tab, configure controls, X-PERFORMANCE, mods, shaders and manage local files without signing in.\n\nTo PLAY Minecraft: Java Edition you need a Microsoft account that owns the game. Accounts without the game can only run the official Demo. Local profiles are enabled only after a Microsoft account has been added, and they cannot join online-mode servers.</string>
 </resources>

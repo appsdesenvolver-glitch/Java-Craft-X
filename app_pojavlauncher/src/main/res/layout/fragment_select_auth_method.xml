@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/background_app"
+    android:background="@drawable/jcx_background"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/fragment_padding_medium">
@@ -13,7 +13,7 @@
     <View
         android:id="@+id/login_menu"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_200sdp"
+        android:layout_height="@dimen/_250sdp"
 
         android:background="@drawable/background_card"
         android:translationZ="-1dp"
@@ -27,7 +27,7 @@
         android:id="@+id/button_microsoft_authentication"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Microsoft Account"
+        android:text="@string/jcx_auth_microsoft"
         android:textSize="@dimen/_12ssp"
         android:layout_marginHorizontal="@dimen/_25sdp"
         android:layout_marginBottom="@dimen/_20sdp"
@@ -43,13 +43,26 @@
         android:id="@+id/button_local_authentication"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Local account"
+        android:text="@string/jcx_auth_local"
         android:textSize="@dimen/_12ssp"
         android:layout_marginHorizontal="@dimen/_25sdp"
-        app:layout_constraintBottom_toBottomOf="@id/login_menu"
+        android:layout_marginBottom="@dimen/_20sdp"
+        app:layout_constraintBottom_toTopOf="@+id/button_guest_mode"
         app:layout_constraintEnd_toEndOf="@+id/login_menu"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/login_menu"
         app:layout_constraintTop_toBottomOf="@+id/button_microsoft_authentication" />
+
+    <com.kdt.mcgui.MineButton
+        android:id="@+id/button_guest_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/jcx_auth_guest"
+        android:textSize="@dimen/_12ssp"
+        android:layout_marginHorizontal="@dimen/_25sdp"
+        app:layout_constraintBottom_toBottomOf="@id/login_menu"
+        app:layout_constraintEnd_toEndOf="@+id/login_menu"
+        app:layout_constraintStart_toStartOf="@+id/login_menu"
+        app:layout_constraintTop_toBottomOf="@+id/button_local_authentication" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

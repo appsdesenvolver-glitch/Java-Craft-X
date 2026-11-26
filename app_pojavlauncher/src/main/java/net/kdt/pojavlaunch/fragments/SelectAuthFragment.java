@@ -27,5 +27,13 @@ public class SelectAuthFragment extends Fragment {
 
         mMicrosoftButton.setOnClickListener(v -> Tools.swapFragment(requireActivity(), MicrosoftLoginFragment.class, MicrosoftLoginFragment.TAG, null));
         mLocalButton.setOnClickListener(v -> hasNoOnlineProfileDialog(requireActivity(), () -> Tools.swapFragment(requireActivity(), LocalLoginFragment.class, LocalLoginFragment.TAG, null)));
+
+        // JAVA CRAFT X — modo convidado: usa o launcher sem conta, sem liberar o jogo sem licença
+        Button mGuestButton = view.findViewById(R.id.button_guest_mode);
+        mGuestButton.setOnClickListener(v -> new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle(R.string.jcx_guest_title)
+                .setMessage(R.string.jcx_guest_message)
+                .setPositiveButton(android.R.string.ok, (d, w) -> Tools.backToMainMenu(requireActivity()))
+                .show());
     }
 }

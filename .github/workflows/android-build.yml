@@ -65,13 +65,23 @@ jobs:
 
       - name: Build Release APK
         run: |
-          gradle :app_pojavlauncher:assembleRelease
+          set -o pipefail
+          gradle :app_pojavlauncher:assembleRelease 2>&1 | tee -a build.log
           mv app_pojavlauncher/build/outputs/apk/release/app_pojavlauncher-release.apk out/JavaCraftX-release.apk
 
       - name: Build Debug APK
         run: |
-          gradle :app_pojavlauncher:assembleDebug
+          set -o pipefail
+          gradle :app_pojavlauncher:assembleDebug 2>&1 | tee -a build.log
           mv app_pojavlauncher/build/outputs/apk/debug/app_pojavlauncher-debug.apk out/JavaCraftX-debug.apk
+
+      - name: Testes unitários (módulos JAVA CRAFT X)
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          gradle :app_pojavlauncher:testDebugUnitTest 2>&1 | tee -a build.log
+          mkdir -p out/test-report
+          cp -r app_pojavlauncher/build/test-results/testDebugUnitTest/*.xml out/test-report/ || true
 
       - name: Checksums
         run: |
@@ -97,3 +107,22 @@ jobs:
             out/JavaCraftX-release.apk
             out/JavaCraftX-debug.apk
             out/SHA256SUMS.txt
+            out/test-report/*.xml
+
+      # Em caso de falha, publica um resumo dos erros para diagnóstico (sem segredos)
+      - name: Resumo de erros do build
+        if: failure()
+        run: |
+          touch build.log
+          { echo "Build ${{ github.run_number }} falhou (commit ${{ github.sha }})."; echo; echo '```'; \
+            grep -E "error:|e: |FAILED|What went wrong|Execution failed|\.java:[0-9]+|AAPT|Android resource|Exception" build.log | grep -v "warning:" | head -150; echo '```'; } > failure.md
+          cat failure.md
+
+      - name: Publicar diagnóstico da falha
+        if: failure()
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ci-failure-${{ github.run_number }}
+          name: CI falhou — build ${{ github.run_number }}
+          prerelease: true
+          body_path: failure.md

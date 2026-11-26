@@ -97,6 +97,15 @@ public class MainMenuFragment extends Fragment {
         });
 
 
+        // JAVA CRAFT X — módulos
+        view.findViewById(R.id.jcx_perf_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.XPerformanceFragment.class, net.kdt.pojavlaunch.jcx.XPerformanceFragment.TAG, null));
+        view.findViewById(R.id.jcx_xtouch_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.XTouchFragment.class, net.kdt.pojavlaunch.jcx.XTouchFragment.TAG, null));
+        view.findViewById(R.id.jcx_mods_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.ContentLabFragment.class, net.kdt.pojavlaunch.jcx.ContentLabFragment.TAG, net.kdt.pojavlaunch.jcx.ContentLabFragment.args(net.kdt.pojavlaunch.jcx.ContentLabFragment.KIND_MOD)));
+        view.findViewById(R.id.jcx_shaders_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.ContentLabFragment.class, net.kdt.pojavlaunch.jcx.ContentLabFragment.TAG, net.kdt.pojavlaunch.jcx.ContentLabFragment.args(net.kdt.pojavlaunch.jcx.ContentLabFragment.KIND_SHADER)));
+        view.findViewById(R.id.jcx_packs_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.ContentLabFragment.class, net.kdt.pojavlaunch.jcx.ContentLabFragment.TAG, net.kdt.pojavlaunch.jcx.ContentLabFragment.args(net.kdt.pojavlaunch.jcx.ContentLabFragment.KIND_RESOURCEPACK)));
+        view.findViewById(R.id.jcx_worlds_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.WorldManagerFragment.class, net.kdt.pojavlaunch.jcx.WorldManagerFragment.TAG, null));
+        view.findViewById(R.id.jcx_crash_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.CrashAnalyzerFragment.class, net.kdt.pojavlaunch.jcx.CrashAnalyzerFragment.TAG, null));
+
         mNewsButton.setOnLongClickListener((v)->{
             Tools.swapFragment(requireActivity(), GamepadMapperFragment.class, GamepadMapperFragment.TAG, null);
             return true;
