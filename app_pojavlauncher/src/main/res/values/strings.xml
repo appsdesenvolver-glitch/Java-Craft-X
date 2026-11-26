@@ -529,7 +529,7 @@
     <string name="jcx_btn_crash" translatable="false">Crash Analyzer</string>
     <string name="jcx_ingame_monitor" translatable="false">X-MONITOR</string>
     <string name="jcx_ingame_layout" translatable="false">X-TOUCH: layout</string>
-    <string name="jcx_auth_microsoft">Microsoft Account</string>
+    <string name="jcx_auth_microsoft">Microsoft account (game or Demo)</string>
     <string name="jcx_auth_local">Local profile</string>
     <string name="jcx_auth_guest">Guest mode</string>
     <string name="jcx_guest_title">Guest mode</string>
@@ -542,4 +542,9 @@
     <string name="jcx_btn_engine" translatable="false">X-Engine</string>
     <string name="jcx_btn_servers" translatable="false">Multiplayer</string>
     <string name="jcx_credit" translatable="false">by KAIKODEV</string>
+    <string name="jcx_auth_hint">Account WITH Minecraft: Java Edition → full game. Microsoft account WITHOUT it → official free Demo (~100 min). A free Xbox profile is required; no subscription.</string>
+    <string name="jcx_auth_other_account">Use a different Microsoft account</string>
+    <string name="jcx_guest_enter">Enter as guest</string>
+    <string name="jcx_guest_on">Guest mode on. Tap Accounts to sign in when you want to play.</string>
+    <string name="jcx_btn_accounts">Accounts</string>
 </resources>

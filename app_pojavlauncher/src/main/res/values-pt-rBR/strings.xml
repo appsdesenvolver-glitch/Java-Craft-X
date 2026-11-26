@@ -344,7 +344,7 @@
     <string name="quick_setting_title">Configurações rápidas</string>
     <string name="preference_experimental_title">Opções experimentais</string>
     <string name="jcx_project_button">Projeto</string>
-    <string name="jcx_auth_microsoft">Conta Microsoft</string>
+    <string name="jcx_auth_microsoft">Conta Microsoft (jogo ou Demo)</string>
     <string name="jcx_auth_local">Perfil local</string>
     <string name="jcx_auth_guest">Modo convidado</string>
     <string name="jcx_guest_title">Modo convidado</string>
@@ -353,4 +353,9 @@
     <string name="jcx_ingame_toggle">Mostrar/ocultar controles</string>
     <string name="jcx_ingame_screenshot">Captura de tela</string>
     <string name="jcx_ingame_back">Voltar ao launcher</string>
+    <string name="jcx_auth_hint">Conta COM o Minecraft: Java Edition → jogo completo. Conta Microsoft SEM o jogo → Demo oficial gratuita (~100 min). É preciso um perfil Xbox gratuito; não precisa de assinatura.</string>
+    <string name="jcx_auth_other_account">Entrar com outra conta Microsoft</string>
+    <string name="jcx_guest_enter">Entrar como convidado</string>
+    <string name="jcx_guest_on">Modo convidado ativo. Toque em Contas quando quiser entrar para jogar.</string>
+    <string name="jcx_btn_accounts">Contas</string>
 </resources>

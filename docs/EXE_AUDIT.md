@@ -25,10 +25,27 @@ depois do login. Tudo nele é específico do Windows (.NET/WPF, Gaming Services)
 servidores da Mojang após login Microsoft e conferir hashes — já está implementado no JAVA CRAFT X
 (Version Hub + instalador do motor). Nenhum byte do EXE foi copiado para o app.
 
-## MinecraftInstaller.exe e TLauncher-Installer-1.9.8.2.exe (não recebidos)
+## MinecraftInstaller (1).exe e minecraft-1-17-9230-35541 (1).exe (recebidos de novo)
 
-Esses dois arquivos não chegaram nesta conversa, então não foram analisados. Observação: o TLauncher é um
-launcher de terceiros, não da Mojang/Microsoft; ele não seria usado como fonte de arquivos do jogo.
+SHA-256 `0fc1ded9a9459789b76104275682e603868181a0e1928ec0681810e7c8e2bf17`: **byte a byte idênticos** ao
+instalador oficial da Microsoft analisado acima. Mesma conclusão.
+
+## TLauncher-Installer-1.9.8.2.exe (recebido)
+
+| Item | Resultado |
+|---|---|
+| Tamanho | 70.489.032 bytes |
+| SHA-256 | `fe4db6d1009ec399d9b1eb9270f1d080ab33428a7af2a23be957bcc56a95b28d` |
+| Tipo | PE32 x86 (Windows), 5 seções; executável nativo (não .NET) |
+| Assinatura digital | Authenticode presente. Signatário: **TLauncher Inc.**, Victoria, Mahé, **Seicheles** (C=SC), emitido por *Certum Code Signing 2021 CA* (Asseco Data Systems, Polônia). Verificação criptográfica completa não executada |
+| Estrutura | Instalador montado com **Indigo Rose Setup Factory** (scripts Lua: `init.lua`, `lua5.3.dll`) que também carrega um pacote **WiX Burn**; ~68,8 MB de dados comprimidos anexados ao final (overlay), com `TL-INSTALLER.exe` e `setup.exe` |
+| Conteúdo | Payload comprimido/ofuscado; não foi descompactado nem executado. Menções a componentes Java (JRE) no texto do instalador |
+| URLs legíveis | Só de certificados (Sectigo, Certum, Microsoft PKI) e `indigorose.com`. Os servidores que o instalador contata depois não aparecem em texto claro |
+
+**Conclusão:** o TLauncher **não é da Mojang nem da Microsoft**. É um launcher de terceiros para Windows, conhecido
+por permitir jogar sem uma conta com licença. Ele não pode rodar no Android (executável x86 do Windows) e
+**não foi integrado**: integrar seria usar uma fonte não oficial do jogo e contornar a licença, o que este projeto não
+faz. Nenhum arquivo dele foi copiado para o app.
 
 ## Fonte gratuita da versão completa
 
@@ -37,3 +54,9 @@ As opções legítimas no JAVA CRAFT X são:
 
 1. **Conta Microsoft que possui o Java Edition** → versão completa, sem limite de tempo.
 2. **Conta Microsoft sem o jogo** → a **demonstração oficial**, com o limite definido pela Mojang.
+
+Pesquisa feita em 26/11/2026 no site oficial (minecraft.net/free-trial e central de ajuda da Mojang): a demo do
+Java Edition é liberada **depois do login** para contas Microsoft que não possuem o jogo, dura cerca de 100 minutos
+(5 dias de jogo), é só para um jogador no modo Sobrevivência, sem comandos e sem servidores online (LAN permitida).
+É exatamente o fluxo implementado no JAVA CRAFT X. Não foi encontrada nenhuma outra fonte oficial e gratuita do
+Java Edition completo.

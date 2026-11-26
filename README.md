@@ -26,8 +26,9 @@ Legenda: ✅ implementado no código • ⚠️ parcial/limitado • ⚙️ prec
 | Módulo | Status | O que faz de verdade |
 |---|---|---|
 | Motor Java integrado | ✅ (Amethyst) | JVM ARM + LWJGL3 + renderizadores Krypton (NG-GL4ES), MobileGlues, Zink (Vulkan) e LTW; o jogo roda numa superfície do próprio app |
-| Conta Microsoft | ✅ | OAuth oficial em `login.live.com`, Xbox/XSTS, verificação de posse do jogo, renovação de token, logout |
-| **Modo convidado** | ✅ | Usa todo o launcher sem conta. Para jogar exige conta com licença; sem licença só a Demo oficial. Nada é desbloqueado sem licença |
+| Conta Microsoft | ✅ | OAuth oficial em `login.live.com`, Xbox/XSTS, licença Java × Bedrock × Demo, tokens cifrados no Android Keystore, renovação automática, sessão da Microsoft lembrada, **Tentar de novo sem senha**, diagnóstico por etapa (código, causa, ação, link oficial) sem expor tokens |
+| **Central de Contas** | ✅ | Contas salvas com tipo (jogo completo / Demo oficial / local) e estado da sessão; usar, renovar, remover; login pendente; último erro; explicação de Conta Microsoft × perfil Xbox × assinatura × licença × Demo |
+| **Modo convidado** | ✅ | Estado real na Home: usa todas as abas sem conta. JOGAR explica e oferece entrar. Nada é desbloqueado sem licença |
 | Perfil local | ✅ | Liberado só depois de existir uma conta Microsoft; não entra em servidores online |
 | Versões (releases, snapshots, antigas) | ✅ | Manifesto oficial, SHA-1, downloads paralelos, perfis/pastas independentes, Java 8 embutido e 17/21/25 baixados automaticamente |
 | Loaders | ✅ | Fabric, Quilt, Forge, NeoForge, OptiFine |
@@ -37,7 +38,7 @@ Legenda: ✅ implementado no código • ⚠️ parcial/limitado • ⚙️ prec
 | **Multiplayer** | ✅ | Lista de servidores do próprio jogo (`servers.dat`): adicionar, editar, remover, favorito no topo, copiar IP, status real (online, jogadores, versão, ping, MOTD) e atalho para jogar. Entrada no servidor com a autenticação normal do jogo |
 | **Sessões de jogo** | ✅ | Início registrado quando o JOGAR realmente inicia o motor; fim detectado quando o processo interno do jogo termina. Tela de resumo: tempo da sessão, mundos gravados (com verificação do level.dat), aviso de fechamento sem salvar, possíveis erros, histórico das últimas 20 sessões |
 | **World Save Protection** | ✅ | Backup automático ao fim de cada sessão (só de mundos íntegros, com checagem de espaço e rotação dos 5 mais recentes; backups manuais nunca são apagados), cartão "Bem-vindo de volta" com o último mundo que ainda existe |
-| Demonstração oficial | ✅ (motor) | Contas Microsoft sem o jogo rodam a Demo oficial. O tempo do mundo de demo é exibido; **o limite da demo não é alterado** |
+| Demonstração oficial | ✅ | Contas Microsoft sem o Java (inclusive só com Bedrock) recebem a Demo oficial: Home mostra "DEMO OFICIAL", botão **JOGAR DEMO**, limites oficiais exibidos, pasta própria. **O limite da demo não é alterado** |
 | **X-PERFORMANCE** | ✅ | Monitor (RAM, pressão de memória, temperatura, armazenamento) + modos ECO / BALANCED / HIGH PERFORMANCE / CUSTOM que ajustam heap (até o máximo seguro), resolução e `options.txt` (distância, simulação, FPS, VSync, partículas, gráficos, sombras, mipmap). Botão para restaurar o original |
 | **X-TOUCH Studio** | ✅ | 7 layouts próprios (Survival, PVP, Creative, Parkour, Builder, Minimal, Custom); usar, duplicar, restaurar, importar, exportar, usar só num perfil; sensibilidade, escala, toque longo, gestos; editor visual (arrastar, redimensionar, opacidade, ação); detecção de controle Bluetooth/USB, teclado e mouse; mapeamento de gamepad |
 | **Game HUD / menu rápido** | ✅ | Botão X MENU sem pausar o jogo: X-MONITOR, trocar layout, tamanho dos botões ao vivo, ocultar controles, captura de tela (F2), configurações rápidas (resolução, sensibilidade), editor, logs, voltar ao launcher (o jogo roda num processo interno separado) |
@@ -87,6 +88,7 @@ Sem segredos, o release é assinado com a chave de debug (instala normalmente, m
 
 ## Documentação
 
+- [Relatório técnico v1.4.0](docs/RELATORIO_TECNICO.md) — problemas encontrados no login/convidado/Demo e correções
 - [Autenticação Microsoft](docs/AUTENTICACAO.md)
 - [Relatório de testes](docs/RELATORIO_TESTES.md)
 - [Compatibilidade](docs/COMPATIBILIDADE.md)

@@ -46,7 +46,8 @@ public class MinecraftAccount {
     }
 
     public boolean isLocal(){
-        return accessToken.equals("0") && !username.startsWith("Demo.");
+        // JAVA CRAFT X: uma conta Microsoft cujo token não abriu continua sendo Microsoft (pede novo login)
+        return !isMicrosoft && "0".equals(accessToken) && !username.startsWith("Demo.");
     }
 
     public boolean isDemo(){
@@ -58,7 +59,16 @@ public class MinecraftAccount {
     }
     
     public String save(String outPath) throws IOException {
-        Tools.write(outPath, Tools.GLOBAL_GSON.toJson(this));
+        // JAVA CRAFT X: tokens gravados cifrados (Android Keystore); em memória continuam abertos
+        String at = accessToken, rt = msaRefreshToken;
+        try {
+            accessToken = net.kdt.pojavlaunch.jcx.JcxVault.seal(at);
+            msaRefreshToken = net.kdt.pojavlaunch.jcx.JcxVault.seal(rt);
+            Tools.write(outPath, Tools.GLOBAL_GSON.toJson(this));
+        } finally {
+            accessToken = at;
+            msaRefreshToken = rt;
+        }
         return username;
     }
     
@@ -91,6 +101,16 @@ public class MinecraftAccount {
             }
             if (acc.msaRefreshToken == null) {
                 acc.msaRefreshToken = "0";
+            }
+            // JAVA CRAFT X: abre os tokens cifrados; contas antigas (texto puro) são migradas na hora
+            boolean legacy = acc.isMicrosoft && !net.kdt.pojavlaunch.jcx.JcxVault.isSealed(acc.msaRefreshToken)
+                    && !"0".equals(acc.msaRefreshToken);
+            String at = net.kdt.pojavlaunch.jcx.JcxVault.open(acc.accessToken);
+            String rt = net.kdt.pojavlaunch.jcx.JcxVault.open(acc.msaRefreshToken);
+            if (at == null) { acc.accessToken = "0"; acc.expiresAt = 0; } else acc.accessToken = at;
+            if (rt == null) { acc.msaRefreshToken = "0"; acc.expiresAt = 0; } else acc.msaRefreshToken = rt;
+            if (legacy && rt != null && net.kdt.pojavlaunch.jcx.JcxVault.isSealed(net.kdt.pojavlaunch.jcx.JcxVault.seal(rt))) {
+                try { acc.save(); } catch (IOException ignored) {}
             }
             return acc;
         } catch(NullPointerException | IOException | JsonSyntaxException e) {

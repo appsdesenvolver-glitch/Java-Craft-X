@@ -52,6 +52,14 @@ manifesto oficial e categorias (release, snapshot, pre-release, RC, beta, alpha)
 não sobrescreve backups, backup pulado por falta de espaço, backup restaurável, rotação que preserva
 backups manuais.
 
+`JcxAuthTest` (login, v1.4.0): 15 testes — perfil Java = jogo completo; **só Bedrock = Demo**; licença Java/Game Pass
+sem perfil pede nome de jogador; sem nada = Demo; XErr 2148916233 explica perfil Xbox gratuito e usa o link oficial;
+link de redirecionamento de domínio não oficial é trocado pelo oficial; conta infantil → Família Microsoft;
+`invalid_grant` pede novo login; 429/5xx; erros de rede nomeados; **relatório nunca contém tokens**; sanitização de
+Bearer/XBL3.0/strings longas; cofre: ida e volta com chave de software, chave errada não devolve lixo, sem chave
+mantém o valor. Executados localmente (JUnit 4, com substitutos mínimos das classes Android): **OK (15 tests)**.
+A cifra com o Android Keystore real só roda em aparelho (pendente).
+
 ## 3. Verificações estáticas
 
 - XML de layouts, drawables e 60+ arquivos de strings validados por parser.
@@ -87,3 +95,10 @@ uma conta Microsoft com o Minecraft. Nenhum número de FPS ou tempo foi inventad
 14. Depois de cada versão testada: Version Hub → **Registrar resultado de teste** (preenche a matriz).
 15. Jogar 5 minutos, "Salvar e sair", fechar o jogo → conferir a tela "Sessão encerrada", o backup automático e o cartão "Bem-vindo de volta".
 16. Fechar o app à força durante a partida → reabrir → conferir o aviso de session.lock.
+17. **Login (v1.4.0):** Contas → Conta Microsoft → entrar marcando "Manter conectado" → conferir a Home ("JOGO COMPLETO" ou "DEMO OFICIAL").
+18. Fechar o app à força e reabrir → a conta continua (sessão recuperada) sem pedir senha. Contas → **Renovar sessão**.
+19. Remover a conta e adicionar de novo → a página da Microsoft deve pedir só a confirmação (sessão lembrada).
+20. Conta Microsoft **sem perfil Xbox** → conferir o diálogo "Falta o perfil Xbox (gratuito)" → Criar perfil Xbox → voltar → **Tentar de novo** sem senha.
+21. Conta Microsoft **sem o Minecraft Java** (pode ter Bedrock) → deve virar "Demo oficial" → JOGAR DEMO → aviso de limites → jogar.
+22. Modo convidado → navegar pelas abas → JOGAR → diálogo "Entre para jogar".
+23. Modo avião → Renovar sessão / adicionar conta → diálogo "Sem conexão" com etapa e ação.

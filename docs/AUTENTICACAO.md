@@ -6,8 +6,14 @@
    O usuário digita e-mail/senha **no site da Microsoft**; o launcher nunca vê nem guarda a senha.
 2. A Microsoft devolve um código OAuth, trocado por tokens.
 3. Cadeia oficial: Microsoft OAuth → Xbox Live → XSTS → Minecraft Services (`login_with_xbox`).
-4. O app consulta `entitlements/mcstore` e o perfil para confirmar que a conta **possui** Minecraft: Java Edition.
-5. O refresh token fica salvo no armazenamento privado do app e é usado para renovar o acesso sem novo login.
+4. O app consulta o perfil e `entitlements/mcstore`: com licença Java → jogo completo; sem licença (ou só Bedrock) →
+   **Demo oficial**; licença sem nome de jogador → pede para criar o nome em minecraft.net.
+5. Os tokens ficam cifrados no **Android Keystore** (AES-256-GCM) e são renovados automaticamente, sem senha.
+6. A sessão da página oficial da Microsoft fica salva no app: se você marcar "Manter conectado", as próximas
+   autorizações pedem só um toque. **Entrar com outra conta** limpa essa sessão.
+7. Se o login falhar depois da autorização (ex.: falta o perfil Xbox), a autorização fica guardada e o diálogo de erro
+   oferece **Tentar de novo** sem pedir a senha. A Central de Contas mostra o login pendente e o último diagnóstico
+   (sem tokens), com botão para copiar.
 
 ## Client ID
 
@@ -29,8 +35,15 @@ Para revogar totalmente: https://account.live.com/consent/Manage
 
 ## Erros comuns
 
-| Mensagem | Causa provável |
-|---|---|
-| "Conta não possui Minecraft" | A conta não comprou o Java Edition (Game Pass precisa ter o perfil Java criado em minecraft.net) |
-| Erro XSTS 2148916233 | Conta sem perfil Xbox — entre uma vez em xbox.com |
-| Erro XSTS 2148916238 | Conta de menor sem família configurada |
+Cada erro mostra a etapa (1/6 a 6/6), o código HTTP/XErr, a causa provável, o que fazer e, quando existe, o link oficial.
+
+| Etapa / código | Causa | O que fazer |
+|---|---|---|
+| 3/6 XErr 2148916233 | Conta sem **perfil Xbox** (gratuito) | Botão "Criar perfil Xbox" → criar gamertag → "Tentar de novo" |
+| 3/6 XErr 2148916235 | Xbox Live indisponível no país da conta | Conferir o país em account.microsoft.com |
+| 3/6 XErr 2148916236/7 | Verificação de idade | Verificar em account.xbox.com |
+| 3/6 XErr 2148916238 | Conta de menor fora de uma Família Microsoft | Um adulto adiciona em account.microsoft.com/family |
+| 1/6 HTTP 400 invalid_grant | Autorização salva expirou ou foi revogada | "Entrar de novo" (com "Manter conectado", sem senha) |
+| 5/6 "Crie seu nome de jogador" | Licença Java/Game Pass sem nome criado | "Criar nome de jogador" em minecraft.net → "Tentar de novo" |
+| HTTP 429 | Muitas tentativas seguidas | Esperar alguns minutos |
+| Sem conexão / tempo esgotado | Internet, DNS, data/hora errada | Conferir rede e data/hora automática |

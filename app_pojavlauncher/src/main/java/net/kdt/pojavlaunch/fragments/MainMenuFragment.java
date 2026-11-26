@@ -42,6 +42,8 @@ public class MainMenuFragment extends Fragment {
 
     private mcVersionSpinner mVersionSpinner;
     private android.widget.TextView mStatusView;
+    private Button mPlay;
+    private final net.kdt.pojavlaunch.extra.ExtraListener<Boolean> mAccountsChanged = (k, v) -> { runOnUiThread(this::refreshAccountInfo); return false; };
 
     public MainMenuFragment(){
         super(R.layout.fragment_launcher);
@@ -59,8 +61,10 @@ public class MainMenuFragment extends Fragment {
         ImageButton mEditProfileButton = view.findViewById(R.id.edit_profile_button);
         Button mPlayButton = view.findViewById(R.id.play_button);
         mVersionSpinner = view.findViewById(R.id.mc_version_spinner);
+        mPlay = mPlayButton;
 
-        mNewsButton.setOnClickListener(v -> Tools.openURL(requireActivity(), Tools.URL_HOME));
+        // JAVA CRAFT X: o antigo atalho "Wiki" virou a Central de Contas
+        mNewsButton.setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.AccountCenterFragment.class, net.kdt.pojavlaunch.jcx.AccountCenterFragment.TAG, null));
         mDiscordButton.setOnClickListener(v -> Tools.openURL(requireActivity(), getString(R.string.discord_invite)));
         mCustomControlButton.setOnClickListener(v -> startActivity(new Intent(requireContext(), CustomControlsActivity.class)));
         if (hasOnlineProfile()) {
@@ -133,7 +137,8 @@ public class MainMenuFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mVersionSpinner.reloadProfiles();
-        if (mStatusView != null) mStatusView.setText(net.kdt.pojavlaunch.jcx.JcxMotion.statusLine());
+        refreshAccountInfo();
+        ExtraCore.addExtraListener(net.kdt.pojavlaunch.jcx.JcxAccounts.EXTRA_ACCOUNTS_CHANGED, mAccountsChanged);
         // JAVA CRAFT X: fim de partida detectado → resumo da sessão e proteção dos mundos
         net.kdt.pojavlaunch.jcx.JcxSession.Info ended = net.kdt.pojavlaunch.jcx.JcxSession.finishIfEnded(requireContext());
         if (ended != null) {
@@ -142,6 +147,20 @@ public class MainMenuFragment extends Fragment {
             return;
         }
         net.kdt.pojavlaunch.jcx.WelcomeCard.bind(getView(), requireActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        ExtraCore.removeExtraListenerFromValue(net.kdt.pojavlaunch.jcx.JcxAccounts.EXTRA_ACCOUNTS_CHANGED, mAccountsChanged);
+    }
+
+    /** JAVA CRAFT X: conta conectada, tipo (jogo completo / Demo oficial / convidado) e texto do JOGAR. */
+    private void refreshAccountInfo() {
+        if (!isAdded()) return;
+        if (mStatusView != null) mStatusView.setText(net.kdt.pojavlaunch.jcx.JcxAccounts.homeLine(requireContext())
+                + "\n" + net.kdt.pojavlaunch.jcx.JcxMotion.statusLine());
+        if (mPlay != null) mPlay.setText(net.kdt.pojavlaunch.jcx.JcxAccounts.playLabel(requireContext()));
     }
 
     private void runInstallerWithConfirmation(boolean isCustomArgs) {

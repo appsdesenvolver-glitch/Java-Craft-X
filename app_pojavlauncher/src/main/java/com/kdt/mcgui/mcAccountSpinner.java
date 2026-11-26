@@ -96,20 +96,36 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
 
         // Check if the account being added is not one that is already existing
         // Like login twice on the same mc account...
-        for(String mcAccountName : mAccountList){
-            if(mcAccountName.equals(account.username)) return;
+        // JAVA CRAFT X: em vez de ignorar, seleciona a conta existente (sem duplicar)
+        net.kdt.pojavlaunch.jcx.JcxAccounts.setGuest(false);
+        int existing = mAccountList.indexOf(account.username);
+        if (existing > 0) {
+            mSelectecAccount = account;
+            if (existing != getSelectedItemPosition()) {
+                PojavProfile.setCurrentProfile(getContext(), account.username);
+                setSelection(existing, false);
+            }
+            invalidate();
+            ExtraCore.setValue(net.kdt.pojavlaunch.jcx.JcxAccounts.EXTRA_ACCOUNTS_CHANGED, true);
+            return;
         }
 
         mSelectecAccount = account;
         invalidate();
         mAccountList.add(account.username);
         reloadAccounts(false, mAccountList.size() -1);
+        ExtraCore.setValue(net.kdt.pojavlaunch.jcx.JcxAccounts.EXTRA_ACCOUNTS_CHANGED, true);
     };
 
     private final ErrorListener mErrorListener = errorMessage -> {
         mLoginBarPaint.setColor(Color.RED);
         Context context = getContext();
-        if(errorMessage instanceof PresentedException) {
+        if (errorMessage instanceof net.kdt.pojavlaunch.jcx.JcxAuthError) {
+            // JAVA CRAFT X: diagnóstico completo (etapa, código, causa, ação, link oficial)
+            net.kdt.pojavlaunch.jcx.JcxAuthDialog.show(findActivity(), (net.kdt.pojavlaunch.jcx.JcxAuthError) errorMessage,
+                    this::retryPendingLogin, this::openMicrosoftLogin);
+            ExtraCore.setValue(net.kdt.pojavlaunch.jcx.JcxAccounts.EXTRA_ACCOUNTS_CHANGED, true);
+        } else if(errorMessage instanceof PresentedException) {
             PresentedException exception = (PresentedException) errorMessage;
             Throwable cause = exception.getCause();
             if(cause == null) {
@@ -122,6 +138,55 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
         }
         invalidate();
     };
+
+    /* JAVA CRAFT X: tenta de novo com a autorização guardada (sem pedir senha) */
+    public void retryPendingLogin() {
+        String token = net.kdt.pojavlaunch.jcx.JcxAuthStore.pending();
+        if (token == null) { openMicrosoftLogin(); return; }
+        mLoginBarPaint.setColor(getResources().getColor(R.color.minebutton_color));
+        new MicrosoftBackgroundLogin(true, token).performLogin(mProgressListener, mDoneListener, mErrorListener);
+    }
+
+    private void openMicrosoftLogin() {
+        android.app.Activity a = findActivity();
+        if (a instanceof androidx.fragment.app.FragmentActivity)
+            Tools.swapFragment((androidx.fragment.app.FragmentActivity) a,
+                    net.kdt.pojavlaunch.fragments.MicrosoftLoginFragment.class,
+                    net.kdt.pojavlaunch.fragments.MicrosoftLoginFragment.TAG, null);
+    }
+
+    private android.app.Activity findActivity() {
+        Context c = getContext();
+        while (c instanceof android.content.ContextWrapper) {
+            if (c instanceof android.app.Activity) return (android.app.Activity) c;
+            c = ((android.content.ContextWrapper) c).getBaseContext();
+        }
+        return null;
+    }
+
+    private final ExtraListener<Boolean> mRetryListener = (key, value) -> { retryPendingLogin(); return false; };
+
+    private final ExtraListener<String> mSelectListener = (key, value) -> {
+        int idx = mAccountList.indexOf(value);
+        if (idx > 0) { pickAccount(idx); if (mSelectecAccount != null) performLogin(mSelectecAccount); }
+        ExtraCore.setValue(net.kdt.pojavlaunch.jcx.JcxAccounts.EXTRA_ACCOUNTS_CHANGED, true);
+        return false;
+    };
+
+    private final ExtraListener<String> mRefreshListener = (key, value) -> {
+        MinecraftAccount acc = MinecraftAccount.load(value);
+        if (acc != null && acc.isMicrosoft && Tools.isOnline(getContext())) {
+            mLoginBarPaint.setColor(getResources().getColor(R.color.minebutton_color));
+            new MicrosoftBackgroundLogin(true, acc.msaRefreshToken).performLogin(mProgressListener, mDoneListener, mErrorListener);
+        }
+        return false;
+    };
+
+    /** JAVA CRAFT X: remove uma conta pelo nome (Central de Contas). */
+    public void removeAccountByName(String name) {
+        int idx = mAccountList.indexOf(name);
+        if (idx > 0) removeAccount(idx);
+    }
 
     /* Triggered when we need to do microsoft login */
     private final ExtraListener<Uri> mMicrosoftLoginListener = (key, value) -> {
@@ -161,6 +226,9 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
 
         ExtraCore.addExtraListener(ExtraConstants.MOJANG_LOGIN_TODO, mMojangLoginListener);
         ExtraCore.addExtraListener(ExtraConstants.MICROSOFT_LOGIN_TODO, mMicrosoftLoginListener);
+        ExtraCore.addExtraListener(net.kdt.pojavlaunch.jcx.JcxAccounts.EXTRA_RETRY_LOGIN, mRetryListener);
+        ExtraCore.addExtraListener(net.kdt.pojavlaunch.jcx.JcxAccounts.EXTRA_SELECT_ACCOUNT, mSelectListener);
+        ExtraCore.addExtraListener(net.kdt.pojavlaunch.jcx.JcxAccounts.EXTRA_REFRESH_ACCOUNT, mRefreshListener);
     }
 
 
@@ -176,6 +244,7 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
         pickAccount(position);
         if(mSelectecAccount != null)
             performLogin(mSelectecAccount);
+        ExtraCore.setValue(net.kdt.pojavlaunch.jcx.JcxAccounts.EXTRA_ACCOUNTS_CHANGED, true);
     }
 
     @Override

@@ -65,4 +65,31 @@
         app:layout_constraintStart_toStartOf="@+id/login_menu"
         app:layout_constraintTop_toBottomOf="@+id/button_local_authentication" />
 
+    <TextView
+        android:id="@+id/jcx_auth_hint"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/jcx_auth_hint"
+        android:textColor="#A9B4D0"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/login_menu"
+        app:layout_constraintStart_toStartOf="@id/login_menu"
+        app:layout_constraintEnd_toEndOf="@id/login_menu" />
+
+    <TextView
+        android:id="@+id/button_other_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:padding="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/jcx_auth_other_account"
+        android:textColor="#00E5FF"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/jcx_auth_hint"
+        app:layout_constraintStart_toStartOf="@id/login_menu"
+        app:layout_constraintEnd_toEndOf="@id/login_menu" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

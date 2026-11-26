@@ -33,7 +33,17 @@ public class SelectAuthFragment extends Fragment {
         mGuestButton.setOnClickListener(v -> new androidx.appcompat.app.AlertDialog.Builder(requireContext())
                 .setTitle(R.string.jcx_guest_title)
                 .setMessage(R.string.jcx_guest_message)
-                .setPositiveButton(android.R.string.ok, (d, w) -> Tools.backToMainMenu(requireActivity()))
+                .setPositiveButton(R.string.jcx_guest_enter, (d, w) -> {
+                    net.kdt.pojavlaunch.jcx.JcxAccounts.setGuest(true);
+                    android.widget.Toast.makeText(requireContext(), R.string.jcx_guest_on, android.widget.Toast.LENGTH_SHORT).show();
+                    Tools.backToMainMenu(requireActivity());
+                })
+                .setNegativeButton(android.R.string.cancel, null)
                 .show());
+
+        // Entrar com OUTRA conta Microsoft: limpa a sessão salva do navegador interno
+        view.findViewById(R.id.button_other_account).setOnClickListener(v ->
+                Tools.swapFragment(requireActivity(), MicrosoftLoginFragment.class, MicrosoftLoginFragment.TAG,
+                        MicrosoftLoginFragment.freshArgs()));
     }
 }

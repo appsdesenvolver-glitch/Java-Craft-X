@@ -188,8 +188,35 @@ public class LauncherActivity extends BaseActivity {
         }
 
         if(mAccountSpinner.getSelectedAccount() == null){
-            Toast.makeText(this, R.string.no_saved_accounts, Toast.LENGTH_LONG).show();
-            ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true);
+            // JAVA CRAFT X: convidado/sem conta → explica e leva ao login (não finge autorização)
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Entre para jogar")
+                    .setMessage("Para iniciar o Minecraft: Java Edition é preciso entrar com uma conta Microsoft.\n\n"
+                            + "• Conta com o jogo → jogo completo.\n"
+                            + "• Conta sem o jogo → Demo oficial gratuita (~100 min).\n\n"
+                            + "No modo convidado você continua usando as outras abas normalmente.")
+                    .setPositiveButton("Entrar", (d, w) -> ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true))
+                    .setNegativeButton("Agora não", null)
+                    .show();
+            return false;
+        }
+
+        // JAVA CRAFT X: na primeira vez com a conta Demo, mostra os limites oficiais antes de abrir
+        if (mAccountSpinner.getSelectedAccount().isDemo()
+                && !LauncherPreferences.DEFAULT_PREF.getBoolean("jcx_demo_info_seen", false)) {
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Demo oficial do Minecraft: Java Edition")
+                    .setMessage("Esta conta Microsoft não possui o Minecraft Java, então a Mojang libera a Demo oficial gratuita:\n\n"
+                            + "• cerca de 100 minutos (5 dias de jogo) por mundo de demonstração;\n"
+                            + "• modo Sobrevivência, sem comandos;\n"
+                            + "• sem servidores online (LAN permitida).\n\n"
+                            + "O limite é aplicado pelo próprio jogo e o launcher não o altera. Seus mundos da demo ficam numa pasta separada e entram no backup automático.")
+                    .setPositiveButton("Jogar a Demo", (d, w) -> {
+                        LauncherPreferences.DEFAULT_PREF.edit().putBoolean("jcx_demo_info_seen", true).apply();
+                        ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true);
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
             return false;
         }
 

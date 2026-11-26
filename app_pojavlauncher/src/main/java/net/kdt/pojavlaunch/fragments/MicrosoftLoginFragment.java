@@ -48,18 +48,37 @@ public class MicrosoftLoginFragment extends Fragment {
         mBlankClient = false;
     }
 
+    /** Argumento: true = limpa a sessão do navegador interno (para entrar com OUTRA conta). */
+    public static final String ARG_FRESH = "jcx_fresh_login";
+
+    public static Bundle freshArgs() {
+        Bundle b = new Bundle();
+        b.putBoolean(ARG_FRESH, true);
+        return b;
+    }
+
+    private static final String AUTHORIZE_URL = "https://login.live.com/oauth20_authorize.srf" +
+            "?client_id=00000000402b5328" +
+            "&response_type=code" +
+            "&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL" +
+            "&redirect_url=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf";
+
     private void startNewSession() {
-        CookieManager.getInstance().removeAllCookies((b)->{
-            mWebview.clearHistory();
-            mWebview.clearCache(true);
-            mWebview.clearFormData();
-            mWebview.clearHistory();
-            mWebview.loadUrl("https://login.live.com/oauth20_authorize.srf" +
-                    "?client_id=00000000402b5328" +
-                    "&response_type=code" +
-                    "&scope=service%3A%3Auser.auth.xboxlive.com%3A%3AMBI_SSL" +
-                    "&redirect_url=https%3A%2F%2Flogin.live.com%2Foauth20_desktop.srf");
-        });
+        // JAVA CRAFT X: antes, os cookies da Microsoft eram apagados SEMPRE, então cada tentativa
+        // pedia e-mail, senha e códigos de novo. Agora a sessão da página oficial é mantida
+        // (se você marcou "Manter conectado", basta um toque). Só limpamos ao pedir outra conta.
+        boolean fresh = getArguments() != null && getArguments().getBoolean(ARG_FRESH, false);
+        if (fresh) {
+            CookieManager.getInstance().removeAllCookies((b) -> {
+                mWebview.clearHistory();
+                mWebview.clearCache(true);
+                mWebview.clearFormData();
+                mWebview.loadUrl(AUTHORIZE_URL);
+            });
+        } else {
+            CookieManager.getInstance().setAcceptCookie(true);
+            mWebview.loadUrl(AUTHORIZE_URL);
+        }
     }
 
     private void restoreWebViewState(Bundle savedInstanceState) {
@@ -105,7 +124,8 @@ public class MicrosoftLoginFragment extends Fragment {
             if(url.startsWith("ms-xal-00000000402b5328")) {
                 // Should be captured by the activity to kill the fragment and get
                 ExtraCore.setValue(ExtraConstants.MICROSOFT_LOGIN_TODO, Uri.parse(url));
-                Toast.makeText(view.getContext(), "Login started !", Toast.LENGTH_SHORT).show();
+                CookieManager.getInstance().flush();
+                Toast.makeText(view.getContext(), "Autorizado pela Microsoft — verificando Xbox e Minecraft…", Toast.LENGTH_LONG).show();
                 Tools.backToMainMenu(requireActivity());
 
                 return true;
