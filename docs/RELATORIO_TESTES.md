@@ -17,6 +17,7 @@ build no CI, testes unitários (JVM) e testes em aparelho (**não executados**).
 | 3 | `99b1030` | v1.1.0 Ultimate — módulos JCX | ✅ release (156.844.937 bytes) + debug (168.750.390 bytes) + testes |
 | 4 | `e5e02ea` | v1.1.0 docs + notas de release | ✅ 12/12 testes |
 | 5 | `9ad22bd` | v1.2.0 Next Generation | ✅ release (156.881.731 bytes) + debug (168.797.600 bytes) + 18/18 testes |
+| 7 | `463169b` | v1.3.0 Sessões + World Save Protection | ✅ release (156.893.326 bytes) + debug (168.807.244 bytes) + **23/23 testes** |
 
 Todas as etapas passaram: checkout com submódulos, JRE 8, assembleRelease, assembleDebug,
 testDebugUnitTest, checksums, release.
@@ -83,6 +84,6 @@ uma conta Microsoft com o Minecraft. Nenhum número de FPS ou tempo foi inventad
 11. Multiplayer → adicionar um servidor → **Verificar** → **Jogar**.
 12. Conectar controle Bluetooth → X-TOUCH → conferir se aparece em "Dispositivos detectados".
 13. No jogo: X MENU → tamanho dos botões, ocultar controles, captura de tela, voltar ao launcher.
+14. Depois de cada versão testada: Version Hub → **Registrar resultado de teste** (preenche a matriz).
 15. Jogar 5 minutos, "Salvar e sair", fechar o jogo → conferir a tela "Sessão encerrada", o backup automático e o cartão "Bem-vindo de volta".
 16. Fechar o app à força durante a partida → reabrir → conferir o aviso de session.lock.
-14. Depois de cada versão testada: Version Hub → **Registrar resultado de teste** (preenche a matriz).
