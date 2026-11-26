@@ -534,4 +534,12 @@
     <string name="jcx_auth_guest">Guest mode</string>
     <string name="jcx_guest_title">Guest mode</string>
     <string name="jcx_guest_message">You can browse every tab, configure controls, X-PERFORMANCE, mods, shaders and manage local files without signing in.\n\nTo PLAY Minecraft: Java Edition you need a Microsoft account that owns the game. Accounts without the game can only run the official Demo. Local profiles are enabled only after a Microsoft account has been added, and they cannot join online-mode servers.</string>
+    <string name="jcx_ingame_scale">X-TOUCH: button size</string>
+    <string name="jcx_ingame_toggle">Show/hide controls</string>
+    <string name="jcx_ingame_screenshot">Screenshot</string>
+    <string name="jcx_ingame_back">Back to launcher</string>
+    <string name="jcx_btn_versions" translatable="false">Version Hub</string>
+    <string name="jcx_btn_engine" translatable="false">X-Engine</string>
+    <string name="jcx_btn_servers" translatable="false">Multiplayer</string>
+    <string name="jcx_credit" translatable="false">by KAIKODEV</string>
 </resources>

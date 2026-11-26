@@ -349,4 +349,8 @@
     <string name="jcx_auth_guest">Modo convidado</string>
     <string name="jcx_guest_title">Modo convidado</string>
     <string name="jcx_guest_message">Você pode navegar por todas as abas, configurar controles, X-PERFORMANCE, mods, shaders e gerenciar arquivos locais sem entrar.\n\nPara JOGAR o Minecraft: Java Edition é preciso uma conta Microsoft que possua o jogo. Contas sem o jogo rodam apenas a Demo oficial. Perfis locais só são liberados depois que uma conta Microsoft é adicionada e não entram em servidores online.</string>
+    <string name="jcx_ingame_scale">X-TOUCH: tamanho dos botões</string>
+    <string name="jcx_ingame_toggle">Mostrar/ocultar controles</string>
+    <string name="jcx_ingame_screenshot">Captura de tela</string>
+    <string name="jcx_ingame_back">Voltar ao launcher</string>
 </resources>

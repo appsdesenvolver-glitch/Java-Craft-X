@@ -7,7 +7,7 @@ static def getDate() { return new Date().format('yyyyMMdd') }
 def getVersionName = {
     // Get the last version tag, as well as the short head of the last commit
     String TAG = ""
-    String semVer = "1.1.0"
+    String semVer = "1.2.0"
     // Used by the fallback for github actions
     String TAG_PART_COMMIT = ""
     String TAG_STRING
@@ -267,6 +267,7 @@ dependencies {
 
     // JAVA CRAFT X — testes unitários (JVM) dos módulos jcx
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.json:json:20231013'
 
 }
 apply from: rootProject.file('gradle/prefab_bypass.gradle')

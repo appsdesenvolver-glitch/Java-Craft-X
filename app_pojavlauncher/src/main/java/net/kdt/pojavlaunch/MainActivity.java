@@ -270,6 +270,10 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
                     case 4: openCustomControls(); break;
                     case 5: net.kdt.pojavlaunch.jcx.XMonitor.show(MainActivity.this); break;
                     case 6: if (mControlLayout != null) mControlLayout.openLoadDialog(); break;
+                    case 7: net.kdt.pojavlaunch.jcx.XHud.scaleDialog(MainActivity.this, mControlLayout); break;
+                    case 8: net.kdt.pojavlaunch.jcx.XHud.toggleControls(mControlLayout); break;
+                    case 9: net.kdt.pojavlaunch.jcx.XHud.screenshot(MainActivity.this); break;
+                    case 10: net.kdt.pojavlaunch.jcx.XHud.backToLauncher(MainActivity.this); break;
                 }
                 drawerLayout.closeDrawers();
             };

@@ -1,6 +1,6 @@
 # NOTICE — autoria e licenças
 
-**JAVA CRAFT X** é um trabalho derivado do **Amethyst Android**
+**JAVA CRAFT X**, criado por **KAIKODEV**, é um trabalho derivado do **Amethyst Android**
 (https://github.com/AngelAuraMC/Amethyst-Android), que por sua vez deriva do
 **PojavLauncher** (https://github.com/PojavLauncherTeam/PojavLauncher).
 

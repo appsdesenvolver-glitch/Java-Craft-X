@@ -13,6 +13,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.net.Uri;
+import android.view.InputDevice;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -38,10 +43,15 @@ public class XTouchFragment extends Fragment {
             {"xtouch_pvp", "PVP", "Botão de ataque grande, ações rápidas, atalhos de hotbar 1-2-3 e correr fixo."},
             {"xtouch_creative", "CREATIVE", "Quebrar/colocar, pegar bloco, trocar bloco na hotbar, voar/descer e atalho para comandos (/)."},
             {"xtouch_parkour", "PARKOUR", "Pulo grande, correr fixo e trava de avanço no analógico para saltos precisos."},
+            {"xtouch_builder", "BUILDER", "Construção: COLOCAR em destaque, quebrar, pegar bloco, trocar bloco e agachar na beirada."},
+            {"xtouch_minimal", "MINIMAL", "Só o essencial (pular, atacar, usar, inventário) para ver mais da tela."},
             {"xtouch_custom", "CUSTOM", "Ponto de partida para personalizar tudo no editor (mover, redimensionar, opacidade, ação)."},
     };
 
     private LinearLayout mBody;
+
+    private final ActivityResultLauncher<String> mImport =
+            registerForActivityResult(new ActivityResultContracts.GetContent(), this::onImport);
 
     @Nullable
     @Override
@@ -101,7 +111,23 @@ public class XTouchFragment extends Fragment {
         sens.addView(JcxUi.label(c, "Multitoque, teclado, mouse e gamepads compatíveis funcionam ao mesmo tempo. Remapeamento de gamepad: Configurações → Controles."));
         mBody.addView(sens);
 
+        mBody.addView(JcxUi.section(c, "Controle Bluetooth/USB, teclado e mouse"));
+        LinearLayout inp = JcxUi.card(c, JcxUi.CYAN);
+        inp.addView(JcxUi.label(c, connectedDevices()));
+        inp.addView(JcxUi.label(c, "Teclado e mouse funcionam direto no jogo (o mouse é capturado na partida; use o botão X MENU para liberar). "
+                + "Gamepads: o mapeamento padrão já funciona; ajuste os botões abaixo."));
+        Button map = JcxUi.button(c, "Mapear botões do controle", true);
+        map.setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.fragments.GamepadMapperFragment.class,
+                net.kdt.pojavlaunch.fragments.GamepadMapperFragment.TAG, null));
+        Button rescan = JcxUi.button(c, "Detectar de novo", false);
+        rescan.setOnClickListener(v -> build());
+        inp.addView(JcxUi.buttonRow(c, map, rescan));
+        mBody.addView(inp);
+
         mBody.addView(JcxUi.section(c, "Meus layouts"));
+        Button imp = JcxUi.button(c, "Importar layout (.json)", false);
+        imp.setOnClickListener(v -> mImport.launch("*/*"));
+        mBody.addView(JcxUi.buttonRow(c, imp));
         File[] mine = ctrlDir().listFiles((d, n) -> n.endsWith(".json"));
         if (mine == null || mine.length == 0) {
             mBody.addView(JcxUi.label(c, "Nenhum layout salvo."));
@@ -185,7 +211,88 @@ public class XTouchFragment extends Fragment {
                     f.delete(); build(); })
                 .setNegativeButton(android.R.string.cancel, null).show());
         card.addView(JcxUi.buttonRow(c, use, dup, del));
+        Button exp = JcxUi.button(c, "Exportar", false);
+        exp.setOnClickListener(v -> export(f));
+        Button perProfile = JcxUi.button(c, "Só neste perfil", false);
+        perProfile.setOnClickListener(v -> setForProfile(f));
+        card.addView(JcxUi.buttonRow(c, exp, perProfile));
         return card;
+    }
+
+    private String connectedDevices() {
+        StringBuilder sb = new StringBuilder("Dispositivos detectados:\n");
+        int found = 0;
+        for (int id : InputDevice.getDeviceIds()) {
+            InputDevice d = InputDevice.getDevice(id);
+            if (d == null || d.isVirtual()) continue;
+            int src = d.getSources();
+            String kind = null;
+            if ((src & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD || (src & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK) kind = "Controle (gamepad)";
+            else if ((src & InputDevice.SOURCE_MOUSE) == InputDevice.SOURCE_MOUSE) kind = "Mouse";
+            else if (d.getKeyboardType() == InputDevice.KEYBOARD_TYPE_ALPHABETIC) kind = "Teclado";
+            else if ((src & InputDevice.SOURCE_TOUCHSCREEN) == InputDevice.SOURCE_TOUCHSCREEN) kind = "Tela touch";
+            if (kind == null) continue;
+            sb.append("• ").append(kind).append(": ").append(d.getName()).append('\n');
+            found++;
+        }
+        if (found == 0) sb.append("• nenhum além dos botões do aparelho\n");
+        return sb.toString().trim();
+    }
+
+    private void export(File f) {
+        Context c = requireContext();
+        try {
+            File out = new File(JcxPaths.jcxHome("exports"), f.getName());
+            JcxFiles.copyFile(f, out);
+            Tools.openPath(c, out, true);
+        } catch (Exception e) {
+            Toast.makeText(c, "Falha ao exportar: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void setForProfile(File f) {
+        Context c = requireContext();
+        try {
+            net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.load();
+            String key = LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE, null);
+            net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile p = key == null ? null
+                    : net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.mainProfileJson.profiles.get(key);
+            if (p == null) { Toast.makeText(c, "Selecione um perfil primeiro", Toast.LENGTH_LONG).show(); return; }
+            p.controlFile = f.getName();
+            net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.write();
+            Toast.makeText(c, f.getName() + " será usado no perfil " + JcxPaths.profileName(), Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(c, "Falha: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void onImport(@Nullable Uri uri) {
+        if (uri == null || !isAdded()) return;
+        Context c = requireContext();
+        try (InputStream in = c.getContentResolver().openInputStream(uri)) {
+            if (in == null) throw new java.io.IOException("arquivo inacessível");
+            java.io.ByteArrayOutputStream bo = new java.io.ByteArrayOutputStream();
+            byte[] buf = new byte[16384];
+            int r;
+            while ((r = in.read(buf)) != -1) {
+                bo.write(buf, 0, r);
+                if (bo.size() > 2 * 1024 * 1024) throw new java.io.IOException("arquivo grande demais para um layout");
+            }
+            String text = bo.toString("UTF-8");
+            org.json.JSONObject o = new org.json.JSONObject(text);
+            if (!o.has("mControlDataList")) throw new java.io.IOException("não é um layout de controles");
+            String name = uri.getLastPathSegment();
+            if (name != null && name.contains("/")) name = name.substring(name.lastIndexOf('/') + 1);
+            name = JcxPaths.safeFileName(name);
+            if (name == null || name.isEmpty()) name = "importado";
+            if (name.endsWith(".json")) name = name.substring(0, name.length() - 5);
+            File out = new File(ctrlDir(), uniqueJson(name));
+            JcxFiles.writeText(out, text);
+            Toast.makeText(c, "Layout importado: " + out.getName(), Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(c, "Importação recusada: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        build();
     }
 
     private String uniqueJson(String base) {

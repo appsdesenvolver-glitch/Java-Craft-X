@@ -41,6 +41,7 @@ public class MainMenuFragment extends Fragment {
     public static final String TAG = "MainMenuFragment";
 
     private mcVersionSpinner mVersionSpinner;
+    private android.widget.TextView mStatusView;
 
     public MainMenuFragment(){
         super(R.layout.fragment_launcher);
@@ -104,7 +105,14 @@ public class MainMenuFragment extends Fragment {
         view.findViewById(R.id.jcx_shaders_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.ContentLabFragment.class, net.kdt.pojavlaunch.jcx.ContentLabFragment.TAG, net.kdt.pojavlaunch.jcx.ContentLabFragment.args(net.kdt.pojavlaunch.jcx.ContentLabFragment.KIND_SHADER)));
         view.findViewById(R.id.jcx_packs_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.ContentLabFragment.class, net.kdt.pojavlaunch.jcx.ContentLabFragment.TAG, net.kdt.pojavlaunch.jcx.ContentLabFragment.args(net.kdt.pojavlaunch.jcx.ContentLabFragment.KIND_RESOURCEPACK)));
         view.findViewById(R.id.jcx_worlds_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.WorldManagerFragment.class, net.kdt.pojavlaunch.jcx.WorldManagerFragment.TAG, null));
+        view.findViewById(R.id.jcx_versions_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.VersionHubFragment.class, net.kdt.pojavlaunch.jcx.VersionHubFragment.TAG, null));
+        view.findViewById(R.id.jcx_engine_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.EngineFragment.class, net.kdt.pojavlaunch.jcx.EngineFragment.TAG, null));
+        view.findViewById(R.id.jcx_servers_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.ServersFragment.class, net.kdt.pojavlaunch.jcx.ServersFragment.TAG, null));
         view.findViewById(R.id.jcx_crash_button).setOnClickListener(v -> Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.CrashAnalyzerFragment.class, net.kdt.pojavlaunch.jcx.CrashAnalyzerFragment.TAG, null));
+
+        mStatusView = view.findViewById(R.id.jcx_status);
+        if (savedInstanceState == null) net.kdt.pojavlaunch.jcx.JcxMotion.entrance((android.view.ViewGroup) view.findViewById(R.id.news_button).getParent());
+        net.kdt.pojavlaunch.jcx.JcxMotion.pressFeedback(mPlayButton);
 
         mNewsButton.setOnLongClickListener((v)->{
             Tools.swapFragment(requireActivity(), GamepadMapperFragment.class, GamepadMapperFragment.TAG, null);
@@ -125,6 +133,7 @@ public class MainMenuFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mVersionSpinner.reloadProfiles();
+        if (mStatusView != null) mStatusView.setText(net.kdt.pojavlaunch.jcx.JcxMotion.statusLine());
     }
 
     private void runInstallerWithConfirmation(boolean isCustomArgs) {

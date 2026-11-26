@@ -1516,8 +1516,9 @@ public final class Tools {
     public static void swapFragment(FragmentActivity fragmentActivity , Class<? extends Fragment> fragmentClass,
                                     @Nullable String fragmentTag, @Nullable Bundle bundle) {
         // When people tab out, it might happen
-        //TODO handle custom animations
+        // JAVA CRAFT X: transições curtas (fade + leve deslize)
         fragmentActivity.getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.jcx_enter, R.anim.jcx_exit, R.anim.jcx_pop_enter, R.anim.jcx_pop_exit)
                 .setReorderingAllowed(true)
                 .addToBackStack(fragmentClass.getName())
                 .replace(R.id.container_fragment, fragmentClass, bundle, fragmentTag).commit();

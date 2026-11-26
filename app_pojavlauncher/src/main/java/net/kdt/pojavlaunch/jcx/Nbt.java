@@ -60,7 +60,17 @@ public final class Nbt {
     private Nbt() {}
 
     public static Root readGzip(File f) throws IOException {
-        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new GZIPInputStream(new FileInputStream(f))))) {
+        return read(f, true);
+    }
+
+    /** servers.dat e alguns outros arquivos usam NBT sem compressão. */
+    public static Root readRaw(File f) throws IOException {
+        return read(f, false);
+    }
+
+    private static Root read(File f, boolean gzip) throws IOException {
+        java.io.InputStream base = new FileInputStream(f);
+        try (DataInputStream in = new DataInputStream(new BufferedInputStream(gzip ? new GZIPInputStream(base) : base))) {
             byte type = in.readByte();
             if (type != COMPOUND) throw new IOException("NBT raiz inválido (tipo " + type + ")");
             Root r = new Root();
@@ -71,14 +81,23 @@ public final class Nbt {
     }
 
     public static void writeGzip(File f, Root root) throws IOException {
+        write(f, root, true);
+    }
+
+    public static void writeRaw(File f, Root root) throws IOException {
+        write(f, root, false);
+    }
+
+    private static void write(File f, Root root, boolean gzip) throws IOException {
         File tmp = new File(f.getAbsolutePath() + ".jcxtmp");
-        try (DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(tmp))))) {
+        java.io.OutputStream base = new FileOutputStream(tmp);
+        try (DataOutputStream out = new DataOutputStream(new BufferedOutputStream(gzip ? new GZIPOutputStream(base) : base))) {
             out.writeByte(COMPOUND);
             out.writeUTF(root.name == null ? "" : root.name);
             writePayload(out, root.tag);
         }
         // valida antes de substituir
-        readGzip(tmp);
+        read(tmp, gzip);
         if (f.exists() && !f.delete()) throw new IOException("Não foi possível substituir " + f.getName());
         if (!tmp.renameTo(f)) throw new IOException("Não foi possível gravar " + f.getName());
     }
