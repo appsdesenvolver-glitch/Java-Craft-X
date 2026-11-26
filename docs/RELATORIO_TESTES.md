@@ -18,6 +18,7 @@ build no CI, testes unitários (JVM) e testes em aparelho (**não executados**).
 | 4 | `e5e02ea` | v1.1.0 docs + notas de release | ✅ 12/12 testes |
 | 5 | `9ad22bd` | v1.2.0 Next Generation | ✅ release (156.881.731 bytes) + debug (168.797.600 bytes) + 18/18 testes |
 | 7 | `463169b` | v1.3.0 Sessões + World Save Protection | ✅ release (156.893.326 bytes) + debug (168.807.244 bytes) + **23/23 testes** |
+| 9 | `80026f0` | v1.4.0 Login Microsoft, convidado, Demo, Central de Contas | ✅ release (156.915.734 bytes) + debug (168.834.028 bytes) + **38/38 testes** (JcxAuthTest 15, JcxCoreTest 12, JcxEngineTest 6, WorldGuardTest 5) |
 
 Todas as etapas passaram: checkout com submódulos, JRE 8, assembleRelease, assembleDebug,
 testDebugUnitTest, checksums, release.
@@ -57,7 +58,7 @@ sem perfil pede nome de jogador; sem nada = Demo; XErr 2148916233 explica perfil
 link de redirecionamento de domínio não oficial é trocado pelo oficial; conta infantil → Família Microsoft;
 `invalid_grant` pede novo login; 429/5xx; erros de rede nomeados; **relatório nunca contém tokens**; sanitização de
 Bearer/XBL3.0/strings longas; cofre: ida e volta com chave de software, chave errada não devolve lixo, sem chave
-mantém o valor. Executados localmente (JUnit 4, com substitutos mínimos das classes Android): **OK (15 tests)**.
+mantém o valor. Executados localmente (JUnit 4, com substitutos mínimos das classes Android): **OK (15 tests)**, e no CI (build 9): **15/15**.
 A cifra com o Android Keystore real só roda em aparelho (pendente).
 
 ## 3. Verificações estáticas
