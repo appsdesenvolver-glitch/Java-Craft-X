@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fundo do dashboard: preto profundo com brilho roxo/azul (leve, sem animação) -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/jcx_black" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:type="radial" android:gradientRadius="420dp"
+                android:centerX="0.0" android:centerY="0.0"
+                android:startColor="#338B2CFF" android:endColor="#008B2CFF" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:type="radial" android:gradientRadius="380dp"
+                android:centerX="1.0" android:centerY="1.0"
+                android:startColor="#2600E5FF" android:endColor="#0000E5FF" />
+        </shape>
+    </item>
+</layer-list>

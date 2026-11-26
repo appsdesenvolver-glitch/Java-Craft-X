@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JAVA CRAFT X — paleta: preto profundo, roxo elétrico, azul neon, ciano, grafite -->
+<resources>
+    <color name="jcx_black">#05050A</color>
+    <color name="jcx_graphite">#14141F</color>
+    <color name="jcx_graphite_light">#1E1E2E</color>
+    <color name="jcx_purple">#8B2CFF</color>
+    <color name="jcx_purple_dark">#5A12B8</color>
+    <color name="jcx_neon_blue">#2F6BFF</color>
+    <color name="jcx_cyan">#00E5FF</color>
+    <color name="jcx_icon_bg">#05050A</color>
+
+    <color name="control_button_color">#4CC4C4C4</color>
+    <color name="control_button_pressed_color">#4D000000</color>
+
+    <color name="minebutton_color">@color/jcx_purple</color>
+    <color name="background_app">@color/jcx_black</color>
+    <color name="divider">#332A3F66</color>
+    <color name="background_overlay">#2A2A40</color>
+    <color name="background_status_bar">@color/jcx_graphite</color>
+    <color name="background_bottom_bar">@color/jcx_graphite</color>
+
+    <color name="primary_text">#FFFFFF</color>
+    <color name="secondary_text">#A9B4D0</color>
+</resources>
