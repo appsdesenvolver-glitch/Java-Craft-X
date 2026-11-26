@@ -82,6 +82,12 @@ public class WorldManagerFragment extends Fragment {
         });
         mBody.addView(JcxUi.buttonRow(c, imp, restoreAny));
         mBody.addView(JcxUi.buttonRow(c, openBk));
+        android.widget.CheckBox auto = new android.widget.CheckBox(c);
+        auto.setText("Backup automático ao fim de cada sessão (mantém os " + WorldGuard.KEEP_AUTO + " mais recentes por mundo; backups manuais nunca são apagados)");
+        auto.setTextColor(JcxUi.TEXT_DIM);
+        auto.setChecked(JcxSession.autoBackupEnabled(c));
+        auto.setOnCheckedChangeListener((b, on) -> JcxSession.setAutoBackup(c, on));
+        mBody.addView(auto);
 
         File[] worlds = savesDir().listFiles(File::isDirectory);
         if (worlds == null || worlds.length == 0) {

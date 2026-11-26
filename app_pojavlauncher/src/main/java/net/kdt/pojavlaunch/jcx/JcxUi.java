@@ -44,12 +44,16 @@ public final class JcxUi {
     public static final int BAD = 0xFFFF4D6D;
 
     private static final ExecutorService BG = Executors.newFixedThreadPool(3);
-    private static final Handler MAIN = new Handler(Looper.getMainLooper());
+    private static volatile Handler sMain; // criado sob demanda (mantém size()/count() testáveis na JVM)
 
     private JcxUi() {}
 
     public static void bg(Runnable r) { BG.execute(r); }
-    public static void ui(Runnable r) { MAIN.post(r); }
+    public static void ui(Runnable r) {
+        Handler h = sMain;
+        if (h == null) { h = new Handler(Looper.getMainLooper()); sMain = h; }
+        h.post(r);
+    }
 
     public static int dp(Context c, float v) {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, v, c.getResources().getDisplayMetrics()));

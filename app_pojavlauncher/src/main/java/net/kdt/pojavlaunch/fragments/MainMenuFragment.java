@@ -134,6 +134,14 @@ public class MainMenuFragment extends Fragment {
         super.onResume();
         mVersionSpinner.reloadProfiles();
         if (mStatusView != null) mStatusView.setText(net.kdt.pojavlaunch.jcx.JcxMotion.statusLine());
+        // JAVA CRAFT X: fim de partida detectado → resumo da sessão e proteção dos mundos
+        net.kdt.pojavlaunch.jcx.JcxSession.Info ended = net.kdt.pojavlaunch.jcx.JcxSession.finishIfEnded(requireContext());
+        if (ended != null) {
+            Tools.swapFragment(requireActivity(), net.kdt.pojavlaunch.jcx.SessionEndFragment.class,
+                    net.kdt.pojavlaunch.jcx.SessionEndFragment.TAG, net.kdt.pojavlaunch.jcx.SessionEndFragment.args(ended));
+            return;
+        }
+        net.kdt.pojavlaunch.jcx.WelcomeCard.bind(getView(), requireActivity());
     }
 
     private void runInstallerWithConfirmation(boolean isCustomArgs) {

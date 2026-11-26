@@ -252,6 +252,10 @@ public class LauncherActivity extends BaseActivity {
             }
         }
 
+        // JAVA CRAFT X: registra o início da sessão (para o resumo e a proteção dos mundos ao voltar)
+        net.kdt.pojavlaunch.jcx.JcxSession.onLaunch(this, prof,
+                mAccountSpinner.getSelectedAccount().isDemo(), mAccountSpinner.getSelectedAccount().isLocal());
+
         new MinecraftDownloader().start(
                 this,
                 mcVersion,

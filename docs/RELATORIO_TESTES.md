@@ -47,6 +47,10 @@ manifesto oficial e categorias (release, snapshot, pre-release, RC, beta, alpha)
 | mcVersionGuessFromLoaderIds | Versão do Minecraft extraída de IDs de Fabric/Forge |
 | safeFileNameStripsTraversal | Nomes vindos da internet não conseguem sair da pasta |
 
+`WorldGuardTest` (proteção de mundos): detecção apenas dos mundos gravados na sessão, mundo corrompido
+não sobrescreve backups, backup pulado por falta de espaço, backup restaurável, rotação que preserva
+backups manuais.
+
 ## 3. Verificações estáticas
 
 - XML de layouts, drawables e 60+ arquivos de strings validados por parser.
@@ -79,4 +83,6 @@ uma conta Microsoft com o Minecraft. Nenhum número de FPS ou tempo foi inventad
 11. Multiplayer → adicionar um servidor → **Verificar** → **Jogar**.
 12. Conectar controle Bluetooth → X-TOUCH → conferir se aparece em "Dispositivos detectados".
 13. No jogo: X MENU → tamanho dos botões, ocultar controles, captura de tela, voltar ao launcher.
+15. Jogar 5 minutos, "Salvar e sair", fechar o jogo → conferir a tela "Sessão encerrada", o backup automático e o cartão "Bem-vindo de volta".
+16. Fechar o app à força durante a partida → reabrir → conferir o aviso de session.lock.
 14. Depois de cada versão testada: Version Hub → **Registrar resultado de teste** (preenche a matriz).

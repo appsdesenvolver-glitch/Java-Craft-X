@@ -35,6 +35,9 @@ Legenda: ✅ implementado no código • ⚠️ parcial/limitado • ⚙️ prec
 | **Matriz de compatibilidade** | ✅ | COMPATIBLE / LIMITED / UNSUPPORTED só por teste registrado ou impossibilidade técnica (ex.: Java > 25); o resto é UNKNOWN com observações |
 | **X-Engine** | ✅ | Capacidades do aparelho (arquitetura, Android, RAM, armazenamento, OpenGL ES, Vulkan) e recomendações; Renderer Manager por perfil com escolha automática, requisitos, indisponíveis marcados e diagnóstico da última falha gráfica; Runtime Manager (Java instalados, remover) |
 | **Multiplayer** | ✅ | Lista de servidores do próprio jogo (`servers.dat`): adicionar, editar, remover, favorito no topo, copiar IP, status real (online, jogadores, versão, ping, MOTD) e atalho para jogar. Entrada no servidor com a autenticação normal do jogo |
+| **Sessões de jogo** | ✅ | Início registrado quando o JOGAR realmente inicia o motor; fim detectado quando o processo interno do jogo termina. Tela de resumo: tempo da sessão, mundos gravados (com verificação do level.dat), aviso de fechamento sem salvar, possíveis erros, histórico das últimas 20 sessões |
+| **World Save Protection** | ✅ | Backup automático ao fim de cada sessão (só de mundos íntegros, com checagem de espaço e rotação dos 5 mais recentes; backups manuais nunca são apagados), cartão "Bem-vindo de volta" com o último mundo que ainda existe |
+| Demonstração oficial | ✅ (motor) | Contas Microsoft sem o jogo rodam a Demo oficial. O tempo do mundo de demo é exibido; **o limite da demo não é alterado** |
 | **X-PERFORMANCE** | ✅ | Monitor (RAM, pressão de memória, temperatura, armazenamento) + modos ECO / BALANCED / HIGH PERFORMANCE / CUSTOM que ajustam heap (até o máximo seguro), resolução e `options.txt` (distância, simulação, FPS, VSync, partículas, gráficos, sombras, mipmap). Botão para restaurar o original |
 | **X-TOUCH Studio** | ✅ | 7 layouts próprios (Survival, PVP, Creative, Parkour, Builder, Minimal, Custom); usar, duplicar, restaurar, importar, exportar, usar só num perfil; sensibilidade, escala, toque longo, gestos; editor visual (arrastar, redimensionar, opacidade, ação); detecção de controle Bluetooth/USB, teclado e mouse; mapeamento de gamepad |
 | **Game HUD / menu rápido** | ✅ | Botão X MENU sem pausar o jogo: X-MONITOR, trocar layout, tamanho dos botões ao vivo, ocultar controles, captura de tela (F2), configurações rápidas (resolução, sensibilidade), editor, logs, voltar ao launcher (o jogo roda num processo interno separado) |
@@ -89,7 +92,8 @@ Sem segredos, o release é assinado com a chave de debug (instala normalmente, m
 - [Compatibilidade](docs/COMPATIBILIDADE.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Arquitetura e licenças](docs/ARQUITETURA.md)
-- [Auditoria de código aberto](OPEN_SOURCE_NOTICES.md)
+- [Auditoria de código aberto / terceiros](OPEN_SOURCE_NOTICES.md)
+- [Auditoria dos EXE do Windows](docs/EXE_AUDIT.md)
 - [README original do Amethyst](docs/UPSTREAM_README.md) (créditos completos)
 
 ## Licença
