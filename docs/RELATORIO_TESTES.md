@@ -17,7 +17,7 @@ Actions. Também **não havia aparelho Android ou emulador** disponível.
 | Ícones e logo gerados nas 5 densidades | ✅ (inspeção visual) |
 | Nenhuma referência restante ao pacote `org.angelauramc.amethyst` | ✅ (busca no código) |
 | Fluxo de login usa só endpoints oficiais Microsoft/Xbox/Mojang | ✅ (revisão de código) |
-| Build do APK no GitHub Actions deste repositório | ver aba **Actions** — resultado da 1ª execução registrado abaixo |
+| Build do APK no GitHub Actions deste repositório | ✅ execução 45747781057 (26/11/2026), todas as etapas com sucesso |
 
 ## Testes obrigatórios da especificação (1–16)
 
@@ -39,4 +39,14 @@ comportamento no seu aparelho só pode ser confirmado instalando o APK.
 
 ## Resultado do CI
 
-_(preenchido após a primeira execução no GitHub Actions)_
+Execução `45747781057` (commit `805a82e`, 26/11/2026): **sucesso** em todas as 12 etapas
+(checkout com submódulos, JRE 8, build release, build debug, checksums, artifact, release).
+
+Release `build-1`:
+
+| Arquivo | Tamanho |
+|---|---|
+| JavaCraftX-release.apk | 156.773.066 bytes (~150 MB) |
+| JavaCraftX-debug.apk | 168.656.641 bytes (~161 MB) |
+
+Assinatura do release: chave de debug (nenhum segredo `JCX_KEYSTORE_*` configurado).
